@@ -1,3 +1,4 @@
+import 'package:app/helpers/scrabble_helper.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -7,13 +8,8 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("ScrabbleScoreMobile"),
       ),
-      body: Column(
-        children: <Widget>[
-          RaisedButton(
-            child: const Text("Nowa gra"),
-            onPressed: () {},
-          ),
-        ],
+      body: Wrap(
+        children: <Widget>[...ScrabbleHelper.scrabbleTiles],
       ),
     );
   }
