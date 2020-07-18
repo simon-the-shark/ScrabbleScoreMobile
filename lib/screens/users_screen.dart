@@ -1,6 +1,9 @@
-import 'package:app/widgets/add_user_widget.dart';
-import 'package:app/widgets/user_widget.dart';
+import 'package:app/providers/game.dart';
+
+import '../widgets/add_user_widget.dart';
+import '../widgets/user_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UsersScreen extends StatefulWidget {
   static const routeName = "/users";
@@ -59,7 +62,11 @@ class _UsersScreenState extends State<UsersScreen> {
                 ),
                 RaisedButton(
                   child: const Text("Rozpocznij rozgrywkę"),
-                  onPressed: () {},
+                  onPressed: () {
+                    Provider.of<Game>(context, listen: false)
+                        .setPlayersNames(values);
+                    // Navigator.of(context).pushReplacementNamed("/game/menu");
+                  },
                 ),
                 Spacer(
                   flex: values[3] == null ? 1 : 3,
