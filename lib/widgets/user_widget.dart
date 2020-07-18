@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../helpers/scrabble_helper.dart';
+import '../providers/game.dart';
 
 class UserWidget extends StatelessWidget {
   UserWidget(this.player);
@@ -35,15 +37,13 @@ class UserWidget extends StatelessWidget {
           ),
         ),
         title: Text(player.value),
-        // trailing: Opacity(
-        //   opacity: parentDeleteFunction != null ? 1 : 0,
-        //   child: IconButton(
-        //     padding: const EdgeInsets.all(0),
-        //     icon: const Icon(Icons.close),
-        //     iconSize: 20,
-        //     onPressed: () => parentDeleteFunction(number),
-        //   ),
-        // ),
+        trailing: Container(
+          child: Text(
+            Provider.of<Game>(context).points[player.key].toString(),
+            style: ScrabbleHelper.textStyle
+                .copyWith(color: UserWidget.colors[player.key], fontSize: 30),
+          ),
+        ),
       ),
     );
   }
