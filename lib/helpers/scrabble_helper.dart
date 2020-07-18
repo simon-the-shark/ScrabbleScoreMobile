@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ScrabbleHelper {
+  static const DIRTY_WHITE = Color.fromRGBO(232, 228, 201, 1);
   static const LETTERS = {
     "A": 1,
     "Ą": 5,
@@ -46,7 +47,7 @@ class ScrabbleHelper {
         height: 70,
         width: 70,
         child: Card(
-          color: Color.fromRGBO(232, 228, 201, 1),
+          color: DIRTY_WHITE,
           child: Stack(
             children: <Widget>[
               Positioned(

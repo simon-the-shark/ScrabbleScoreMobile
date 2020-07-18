@@ -1,3 +1,4 @@
+import 'package:app/screens/users_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/home_screen.dart';
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomeScreen(),
+      routes: {
+        UsersScreen.routeName: (context) => UsersScreen(),
+      },
     );
   }
 }
