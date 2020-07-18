@@ -43,9 +43,11 @@ class ScrabbleHelper {
     fontWeight: FontWeight.bold,
     color: Colors.green[900],
   );
-  static final scrabbleTiles = LETTERS.keys.map((element) => SizedBox(
-        height: 70,
-        width: 70,
+  static final scrabbleTiles = LETTERS.map((key, _) => MapEntry(
+      key,
+      SizedBox(
+        height: 60,
+        width: 60,
         child: Card(
           color: DIRTY_WHITE,
           child: Stack(
@@ -53,14 +55,23 @@ class ScrabbleHelper {
               Positioned(
                 bottom: 5,
                 right: 5,
-                child: Text(LETTERS[element].toString(),
+                child: Text(LETTERS[key].toString(),
                     style: textStyle.copyWith(fontSize: 15)),
               ),
               Center(
-                child: Text(element, style: textStyle),
+                child: Text(key, style: textStyle),
               ),
             ],
           ),
         ),
-      ));
+      )));
+
+  static int calculateScore(List<String> word) {
+    var score = 0;
+    word.forEach((char) {
+      var points = LETTERS[char];
+      if (points != null) score += points;
+    });
+    return score;
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:app/screens/word_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,15 @@ class UserWidget extends StatelessWidget {
       color: ScrabbleHelper.DIRTY_WHITE,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: ListTile(
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (context) => WordScreen(player.key),
+            settings: const RouteSettings(
+              name: WordScreen.routeName,
+            ),
+          ),
+        ),
         leading: Container(
           decoration: BoxDecoration(
               shape: BoxShape.circle,

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class Game with ChangeNotifier {
   Map<int, String> _players = {1: null, 2: null, 3: null, 4: null};
-  Map<int, int> _points = {1: 0, 2: 155, 3: 0, 4: 0};
+  Map<int, int> _points = {1: 0, 2: 0, 3: 0, 4: 0};
 
   Map<int, String> get clearedPlayers => Map<int, String>.from(_players)
     ..removeWhere((key, value) => value == null);

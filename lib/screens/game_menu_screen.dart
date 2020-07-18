@@ -11,19 +11,6 @@ class GameMenuScreen extends StatelessWidget {
     final appBar = AppBar(
       title: const Text("ScrabbleScoreMobile"),
       leading: const CloseButton(),
-      actions: <Widget>[
-        // IconButton(
-        //   icon: Icon(Icons.remove),
-        //   onPressed: () {},
-        // ),
-        // IconButton(
-        //   icon: const Text(
-        //     "+50",
-        //     style: TextStyle(fontSize: 17),
-        //   ),
-        //   onPressed: () {},
-        // ),
-      ],
     );
     var players = Provider.of<Game>(context).players;
     return Scaffold(
@@ -31,6 +18,13 @@ class GameMenuScreen extends StatelessWidget {
       body: Center(
         child: Column(children: <Widget>[
           Spacer(flex: 3),
+          Text(
+            "Wybierz gracza, aby doliczyć punkty",
+            style: Theme.of(context).textTheme.headline6,
+            softWrap: true,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
           for (var player in players) UserWidget(player),
           Spacer(flex: 4),
           RaisedButton(
