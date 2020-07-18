@@ -1,3 +1,5 @@
+import 'package:app/screens/game_menu_screen.dart';
+import 'package:app/widgets/game_pop_scope.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +30,9 @@ class MyApp extends StatelessWidget {
         home: HomeScreen(),
         routes: {
           UsersScreen.routeName: (context) => UsersScreen(),
+          GameMenuScreen.routeName: (context) => GamePopScope(
+                child: GameMenuScreen(),
+              ),
         },
       ),
     );

@@ -1,6 +1,6 @@
-import 'package:app/helpers/scrabble_helper.dart';
-import 'package:app/screens/users_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'users_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

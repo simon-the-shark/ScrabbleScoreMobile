@@ -1,21 +1,12 @@
-import 'package:app/helpers/scrabble_helper.dart';
 import 'package:flutter/material.dart';
 
+import '../helpers/scrabble_helper.dart';
+
 class UserWidget extends StatelessWidget {
-  UserWidget(this.number, this.parentValues, this.parentDeleteFunction,
-      {this.textController});
+  UserWidget(this.player);
 
-  final int number;
-  final List<String> parentValues;
-  final Function(int) parentDeleteFunction;
-  final TextEditingController textController;
+  final MapEntry<int, String> player;
 
-  static const adjectives = {
-    1: "pierwszego",
-    2: "drugiego",
-    3: "trzeciego",
-    4: "czwartego",
-  };
   static const colors = {
     1: Colors.green,
     2: Colors.orange,
@@ -32,33 +23,27 @@ class UserWidget extends StatelessWidget {
         leading: Container(
           decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(width: 1, color: UserWidget.colors[number])),
+              border:
+                  Border.all(width: 1, color: UserWidget.colors[player.key])),
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Text(
-              number.toString(),
+              player.key.toString(),
               style: ScrabbleHelper.textStyle
-                  .copyWith(color: UserWidget.colors[number]),
+                  .copyWith(color: UserWidget.colors[player.key]),
             ),
           ),
         ),
-        title: TextField(
-          controller: textController,
-          decoration: InputDecoration(
-            labelText: 'Imię ${UserWidget.adjectives[number]} gracza',
-          ),
-          onChanged: (value) => parentValues[number] = value,
-        ),
-        contentPadding: const EdgeInsets.only(left: 16),
-        trailing: Opacity(
-          opacity: parentDeleteFunction != null ? 1 : 0,
-          child: IconButton(
-            padding: const EdgeInsets.all(0),
-            icon: const Icon(Icons.close),
-            iconSize: 20,
-            onPressed: () => parentDeleteFunction(number),
-          ),
-        ),
+        title: Text(player.value),
+        // trailing: Opacity(
+        //   opacity: parentDeleteFunction != null ? 1 : 0,
+        //   child: IconButton(
+        //     padding: const EdgeInsets.all(0),
+        //     icon: const Icon(Icons.close),
+        //     iconSize: 20,
+        //     onPressed: () => parentDeleteFunction(number),
+        //   ),
+        // ),
       ),
     );
   }

@@ -1,5 +1,5 @@
 import '../helpers/scrabble_helper.dart';
-import 'user_widget.dart';
+import 'user_input_widget.dart';
 import 'package:flutter/material.dart';
 
 class AddUserWidget extends StatelessWidget {
@@ -19,18 +19,19 @@ class AddUserWidget extends StatelessWidget {
         leading: Container(
           decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(width: 1, color: UserWidget.colors[number])),
+              border:
+                  Border.all(width: 1, color: UserInputWidget.colors[number])),
           child: Padding(
               padding: const EdgeInsets.all(8.5),
               child: Icon(
                 Icons.add,
-                color: UserWidget.colors[number],
+                color: UserInputWidget.colors[number],
               )),
         ),
         title: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Text(
-            'Dodaj ${UserWidget.adjectives[number]} gracza',
+            'Dodaj ${UserInputWidget.adjectives[number]} gracza',
             style: TextStyle(color: Colors.black54),
           ),
         ),

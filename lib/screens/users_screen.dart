@@ -1,7 +1,8 @@
 import 'package:app/providers/game.dart';
+import 'package:app/screens/game_menu_screen.dart';
 
 import '../widgets/add_user_widget.dart';
-import '../widgets/user_widget.dart';
+import '../widgets/user_input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,21 +41,21 @@ class _UsersScreenState extends State<UsersScreen> {
                 Spacer(
                   flex: values[3] == null ? 1 : 2,
                 ),
-                UserWidget(1, values, null),
-                UserWidget(2, values, null),
+                UserInputWidget(1, values, null),
+                UserInputWidget(2, values, null),
                 if (values[3] != null)
-                  UserWidget(
+                  UserInputWidget(
                     3,
                     values,
                     deleteUser,
                     textController: TextEditingController(text: values[3]),
                   ),
                 if (values[4] != null)
-                  UserWidget(
+                  UserInputWidget(
                     4,
                     values,
                     deleteUser,
-                    textController: TextEditingController(text: values[3]),
+                    textController: TextEditingController(text: values[4]),
                   ),
                 if (nullIndex != -1) AddUserWidget(nullIndex, addUser),
                 Spacer(
@@ -65,7 +66,9 @@ class _UsersScreenState extends State<UsersScreen> {
                   onPressed: () {
                     Provider.of<Game>(context, listen: false)
                         .setPlayersNames(values);
-                    // Navigator.of(context).pushReplacementNamed("/game/menu");
+                    Navigator.of(context).pushReplacementNamed(
+                      GameMenuScreen.routeName,
+                    );
                   },
                 ),
                 Spacer(
