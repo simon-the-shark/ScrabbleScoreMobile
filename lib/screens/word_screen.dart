@@ -1,39 +1,60 @@
-import 'package:app/helpers/locator.dart';
-import 'package:app/widgets/blank_lock_button.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
 
+import '../helpers/locator.dart';
 import '../helpers/scrabble_helper.dart';
 import '../providers/game.dart';
+import '../widgets/blank_lock_button.dart';
 import '../widgets/blank_tile.dart';
 import '../widgets/scrabble_keyboard.dart';
+import '../widgets/scrabble_tile.dart';
 
 class WordScreen extends StatefulWidget {
-  WordScreen(this.player);
+  WordScreen(this.player, {key}) : super(key: key);
   final int player;
   static const routeName = "/game/word";
   @override
-  _WordScreenState createState() => _WordScreenState();
+  WordScreenState createState() => WordScreenState();
 }
 
-class _WordScreenState extends State<WordScreen> {
+class WordScreenState extends State<WordScreen> {
   final textNode = FocusNode();
   final notifier = ValueNotifier<String>("");
   int score = 0;
   List<String> word = [];
+  Map<int, Multipliers> multipliers = {};
 
+  int get wordMultiplyFactor {
+    int returnFactor = 1;
+    multipliers.values
+        .where((element) => element.type == MultipliersType.word)
+        .forEach((element) => returnFactor *= element.value);
+    return returnFactor;
+  }
+
+  String get multiplyLabel =>
+      wordMultiplyFactor > 1 ? " x$wordMultiplyFactor" : "";
+
+  void addMultiplier(int index, Multipliers multi) => setState(() {
+        multipliers[index] = multi;
+        score = ScrabbleHelper.calculateScoreWithLetterMultipliers(
+            word, multipliers);
+      });
   void onChanged() {
     var value = notifier.value;
     if (value == "") return;
     if (value == null && word.length > 0) if (word.last == ")")
       setState(() {
+        multipliers.remove(word.length - 2);
         word.removeRange(word.length - 3, word.length);
       });
     else
       setState(() {
+        multipliers.remove(word.length - 1);
         word.removeAt(word.length - 1);
-        score = ScrabbleHelper.calculateScore(word);
+        score = ScrabbleHelper.calculateScoreWithLetterMultipliers(
+            word, multipliers);
       });
     else if (ScrabbleHelper.LETTERS.keys.contains(value)) if (word.length > 0 &&
         word.last == "(")
@@ -45,7 +66,8 @@ class _WordScreenState extends State<WordScreen> {
     else
       setState(() {
         word.add(value.toUpperCase());
-        score = ScrabbleHelper.calculateScore(word);
+        score = ScrabbleHelper.calculateScoreWithLetterMultipliers(
+            word, multipliers);
       });
     else if (value == "(")
       setState(() {
@@ -71,12 +93,18 @@ class _WordScreenState extends State<WordScreen> {
     for (var i = 0; i < word.length; i++) {
       var char = word[i];
       if (char == "(" && i == word.length - 1)
-        tiles.add(BlankTile());
-      else if (ScrabbleHelper.scrabbleTiles[char] != null) {
+        tiles.add(BlankTile(tileIndex: i));
+      else if (ScrabbleHelper.LETTERS[char] != null) {
         if (i < word.length - 1 && word[i + 1] == ")")
-          tiles.add(BlankTile(letter: char));
+          tiles.add(BlankTile(letter: char, tileIndex: i));
         else
-          tiles.add(ScrabbleHelper.scrabbleTiles[char]);
+          tiles.add(
+            ScrabbleTile(
+              letter: char,
+              points: ScrabbleHelper.LETTERS[char],
+              tileIndex: i,
+            ),
+          );
       } else
         tiles.add(Container(width: 0, height: 0));
     }
@@ -87,8 +115,16 @@ class _WordScreenState extends State<WordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Punkty: $score"),
+        title: Text("Punkty: $score$multiplyLabel"),
       ),
+      floatingActionButton: textNode.hasFocus
+          ? null
+          : FloatingActionButton(
+              child: const Icon(Icons.keyboard),
+              onPressed: () => setState(() {
+                textNode.requestFocus();
+              }),
+            ),
       body: GestureDetector(
         onTap: () {
           setState(() {
@@ -101,7 +137,7 @@ class _WordScreenState extends State<WordScreen> {
         child: WillPopScope(
           onWillPop: () async {
             if (!textNode.hasFocus) return true;
-            textNode.unfocus();
+            hideKeyboard();
             return false;
           },
           child: KeyboardActions(
@@ -115,9 +151,7 @@ class _WordScreenState extends State<WordScreen> {
                   displayActionBar: false,
                   footerBuilder: (_) => ScrabbleKeyboard(
                     notifier: notifier,
-                    hideKeyboard: () => setState(() {
-                      textNode.unfocus();
-                    }),
+                    hideKeyboard: hideKeyboard,
                   ),
                 ),
               ],
@@ -133,6 +167,14 @@ class _WordScreenState extends State<WordScreen> {
                     return Container();
                   },
                 ),
+                if (word.length > 0)
+                  Positioned(
+                    top: 10,
+                    child: Text(
+                      "Kliknij na płytkę, aby dodać premię",
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ),
                 Wrap(children: buildTiles()),
                 if (word.length == 0)
                   Text(
@@ -148,8 +190,9 @@ class _WordScreenState extends State<WordScreen> {
                     child: RaisedButton(
                       child: const Text("Dolicz słowo"),
                       onPressed: () {
-                        Provider.of<Game>(context, listen: false)
-                            .addPoints(player: widget.player, points: score);
+                        Provider.of<Game>(context, listen: false).addPoints(
+                            player: widget.player,
+                            points: score * wordMultiplyFactor);
                         Navigator.of(context).pop();
                       },
                     ),
@@ -161,4 +204,8 @@ class _WordScreenState extends State<WordScreen> {
       ),
     );
   }
+
+  hideKeyboard() => setState(() {
+        textNode.unfocus();
+      });
 }

@@ -1,3 +1,4 @@
+import 'package:app/helpers/locator.dart';
 import 'package:app/screens/word_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,8 @@ class UserWidget extends StatelessWidget {
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
             fullscreenDialog: true,
-            builder: (context) => WordScreen(player.key),
+            builder: (context) =>
+                WordScreen(player.key, key: newWordScreenKey()),
             settings: const RouteSettings(
               name: WordScreen.routeName,
             ),
