@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 
 class UserInputWidget extends StatelessWidget {
   UserInputWidget(this.number, this.parentValues, this.parentDeleteFunction,
-      {this.textController});
+      {this.textController, this.focusNode});
 
   final int number;
   final List<String> parentValues;
   final Function(int) parentDeleteFunction;
   final TextEditingController textController;
+  final FocusNode focusNode;
 
   static const adjectives = {
     1: "pierwszego",
@@ -49,6 +50,7 @@ class UserInputWidget extends StatelessWidget {
             labelText: 'Imię ${UserInputWidget.adjectives[number]} gracza',
           ),
           onChanged: (value) => parentValues[number] = value,
+          focusNode: focusNode,
         ),
         contentPadding: const EdgeInsets.only(left: 16),
         trailing: Opacity(
@@ -57,7 +59,9 @@ class UserInputWidget extends StatelessWidget {
             padding: const EdgeInsets.all(0),
             icon: const Icon(Icons.close),
             iconSize: 20,
-            onPressed: () => parentDeleteFunction(number),
+            onPressed: () {
+              if (parentDeleteFunction != null) parentDeleteFunction(number);
+            },
           ),
         ),
       ),

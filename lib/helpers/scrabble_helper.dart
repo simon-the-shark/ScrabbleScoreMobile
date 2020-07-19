@@ -1,3 +1,4 @@
+import 'package:app/widgets/scrabble_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -36,42 +37,27 @@ class ScrabbleHelper {
     "Z": 1,
     "Ź": 9,
     "Ż": 5,
-    "": 0,
   };
+  static final darkGreen = Colors.green[900];
   static final textStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
-    color: Colors.green[900],
+    color: darkGreen,
   );
   static final scrabbleTiles = LETTERS.map((key, _) => MapEntry(
-      key,
-      SizedBox(
-        height: 60,
-        width: 60,
-        child: Card(
-          color: DIRTY_WHITE,
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                bottom: 5,
-                right: 5,
-                child: Text(LETTERS[key].toString(),
-                    style: textStyle.copyWith(fontSize: 15)),
-              ),
-              Center(
-                child: Text(key, style: textStyle),
-              ),
-            ],
-          ),
-        ),
-      )));
+        key,
+        ScrabbleTile(letter: key, points: LETTERS[key]),
+      ));
 
   static int calculateScore(List<String> word) {
     var score = 0;
-    word.forEach((char) {
-      var points = LETTERS[char];
-      if (points != null) score += points;
-    });
+    for (var i = 0; i < word.length; i++) {
+      var char = word[i];
+      if (i == 0 || word[i - 1] != "(") {
+        var points = LETTERS[char];
+        if (points != null) score += points;
+      }
+    }
     return score;
   }
 }
