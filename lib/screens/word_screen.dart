@@ -1,3 +1,4 @@
+import 'package:app/widgets/dictionary_check_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
@@ -202,14 +203,22 @@ class WordScreenState extends State<WordScreen> {
                   },
                 ),
                 if (word.length > 0)
+                  Column(
+                    children: <Widget>[
+                      Wrap(children: buildTiles()),
+                      const SizedBox(height: 7),
+                      Text(
+                        "Kliknij na płytkę, aby dodać premię",
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ],
+                  ),
+                if (word.length > 0)
                   Positioned(
                     top: 10,
-                    child: Text(
-                      "Kliknij na płytkę, aby dodać premię",
-                      style: Theme.of(context).textTheme.caption,
-                    ),
+                    right: 10,
+                    child: DictionaryCheckWidget(word),
                   ),
-                Wrap(children: buildTiles()),
                 if (word.length == 0)
                   Text(
                     "Wpisz ułożone słowo",

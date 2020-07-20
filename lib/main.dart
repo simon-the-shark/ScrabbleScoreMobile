@@ -1,14 +1,13 @@
-import 'package:app/helpers/scrabble_helper.dart';
-import 'package:app/providers/scrabble_dictionary.dart';
-import 'package:app/screens/game_menu_screen.dart';
-import 'package:app/widgets/game_pop_scope.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'helpers/locator.dart';
 import 'providers/game.dart';
+import 'providers/scrabble_dictionary.dart';
+import 'screens/game_menu_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/users_screen.dart';
+import 'widgets/game_pop_scope.dart';
 
 void main() {
   setupLocator();
@@ -22,10 +21,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Game()),
-        ChangeNotifierProvider.value(value: locator<ScrabbleDictionary>()),
+        ChangeNotifierProvider(create: (_) => ScrabbleDictionary()),
       ],
       child: MaterialApp(
-        title: 'ScrabbleScoreMobile',
+        title: 'ScrabbleScore Mobile',
         theme: ThemeData(
           primarySwatch: Colors.teal,
           visualDensity: VisualDensity.adaptivePlatformDensity,

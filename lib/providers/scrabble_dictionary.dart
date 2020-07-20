@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:app/helpers/scrabble_helper.dart';
@@ -5,6 +6,18 @@ import 'package:archive/archive.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+
+bool containes(List args) {
+  var word = (args[1] as List)
+      .where((element) => ScrabbleHelper.LETTERS.containsKey(element))
+      .join("")
+      .toLowerCase();
+  var file = File("${args[0]}/sjp/slowa.txt");
+  var lines = file.readAsLinesSync();
+  print(lines);
+  print(word);
+  return lines.contains(word);
+}
 
 class ScrabbleDictionary with ChangeNotifier {
   ScrabbleDictionary() {
@@ -14,16 +27,7 @@ class ScrabbleDictionary with ChangeNotifier {
   String dir;
   Future loadFuture;
   bool isReady = false;
-  List<String> _dictionary;
-
-  List<String> get dictionary => [..._dictionary];
-
-  bool isApproved(List<String> chars) {
-    var word = chars
-        .where((element) => ScrabbleHelper.LETTERS.containsKey(element))
-        .join("");
-    return dictionary.contains(word);
-  }
+  String dictionary;
 
   Future<void> _init() async {
     if (null == dir) dir = (await getApplicationDocumentsDirectory()).path;
@@ -34,11 +38,14 @@ class ScrabbleDictionary with ChangeNotifier {
     loadFuture.whenComplete(() {
       isReady = true;
       notifyListeners();
-      debugPrint(dictionary.toString());
     });
   }
 
   Future<void> unzip() async {
+    await compute(_unzip, dir);
+  }
+
+  static Future<void> _unzip(String dir) async {
     var zip = await rootBundle.load("assets/sjp-20200717.zip");
     var archive = ZipDecoder().decodeBytes(
         zip.buffer.asUint8List(zip.offsetInBytes, zip.lengthInBytes));
@@ -54,7 +61,12 @@ class ScrabbleDictionary with ChangeNotifier {
   }
 
   Future<void> load() async {
+    // dictionary = await compute(_load, dir);
+  }
+
+  static Future<String> _load(String dir) async {
     var file = File("$dir/sjp/slowa.txt");
-    _dictionary = await file.readAsLines();
+    var lines = file.readAsStringSync();
+    return lines;
   }
 }
