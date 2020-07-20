@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:app/helpers/scrabble_helper.dart';
 import 'package:archive/archive.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../helpers/scrabble_helper.dart';
 
 bool containes(List args) {
   var word = (args[1] as List)
@@ -42,11 +44,13 @@ class ScrabbleDictionary with ChangeNotifier {
   }
 
   Future<void> unzip() async {
-    await compute(_unzip, dir);
+    var zip = await rootBundle.load("assets/sjp-20200717.zip");
+    await compute(_unzip, [zip, dir]);
   }
 
-  static Future<void> _unzip(String dir) async {
-    var zip = await rootBundle.load("assets/sjp-20200717.zip");
+  static Future<void> _unzip(List args) async {
+    var zip = args[0];
+    var dir = args[1];
     var archive = ZipDecoder().decodeBytes(
         zip.buffer.asUint8List(zip.offsetInBytes, zip.lengthInBytes));
     for (var file in archive) {
