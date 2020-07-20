@@ -32,6 +32,8 @@ dependencies:
   get_it: ^4.0.2
   keyboard_actions: any
   easy_dialogs: ^1.0.0
+  path_provider: ^1.6.11
+  archive: ^2.0.13
 
 dev_dependencies:
   flutter_test:
@@ -49,8 +51,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/sjp-20200717.zip
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

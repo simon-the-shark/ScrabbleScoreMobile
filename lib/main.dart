@@ -1,4 +1,5 @@
 import 'package:app/helpers/scrabble_helper.dart';
+import 'package:app/providers/scrabble_dictionary.dart';
 import 'package:app/screens/game_menu_screen.dart';
 import 'package:app/widgets/game_pop_scope.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Game()),
+        ChangeNotifierProvider.value(value: locator<ScrabbleDictionary>()),
       ],
       child: MaterialApp(
         title: 'ScrabbleScoreMobile',
