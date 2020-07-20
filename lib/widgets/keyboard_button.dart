@@ -1,7 +1,7 @@
-import 'package:app/widgets/scrabble_keyboard.dart';
+import 'package:flutter/material.dart';
 
 import '../helpers/scrabble_helper.dart';
-import 'package:flutter/material.dart';
+import 'scrabble_keyboard.dart';
 
 class KeyboardButton extends StatelessWidget {
   KeyboardButton(this.width, this.height,
@@ -22,6 +22,7 @@ class KeyboardButton extends StatelessWidget {
       child: Padding(
         padding: buttonPadding,
         child: RaisedButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           padding: const EdgeInsets.all(0),
           color: ScrabbleHelper.DIRTY_WHITE,
           onPressed: letter != null && update != null

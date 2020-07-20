@@ -1,8 +1,9 @@
-import 'package:app/helpers/locator.dart';
-import 'package:app/helpers/scrabble_helper.dart';
-import 'package:app/screens/word_screen.dart';
 import 'package:easy_dialogs/single_choice_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
+
+import '../helpers/locator.dart';
+import '../helpers/scrabble_helper.dart';
+import '../screens/word_screen.dart';
 
 class MultipliersDialog extends StatelessWidget {
   MultipliersDialog(this.letter, this.tileIndex);

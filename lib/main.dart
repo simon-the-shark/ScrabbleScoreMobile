@@ -1,3 +1,4 @@
+import 'package:app/helpers/scrabble_helper.dart';
 import 'package:app/screens/game_menu_screen.dart';
 import 'package:app/widgets/game_pop_scope.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,15 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.teal,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          buttonTheme: ButtonThemeData(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
+            materialTapTargetSize: MaterialTapTargetSize.padded,
+            buttonColor: Colors.teal,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(13),
+            ),
+            textTheme: ButtonTextTheme.primary,
+          ),
         ),
         home: HomeScreen(),
         routes: {

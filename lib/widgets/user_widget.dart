@@ -22,7 +22,7 @@ class UserWidget extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       color: ScrabbleHelper.DIRTY_WHITE,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: ListTile(
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(

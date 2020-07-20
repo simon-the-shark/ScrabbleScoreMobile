@@ -34,6 +34,8 @@ class BlankLockButtonState extends State<BlankLockButton> {
                     isActive = false;
                   }),
           child: RaisedButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             padding: const EdgeInsets.all(0),
             child: RotationTransition(
               turns: AlwaysStoppedAnimation(-15 / 360),

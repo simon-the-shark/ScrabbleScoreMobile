@@ -9,7 +9,7 @@ class GameMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: const Text("ScrabbleScoreMobile"),
+      title: const Text("ScrabbleScore Mobile"),
       leading: const CloseButton(),
     );
     var players = Provider.of<Game>(context).players;

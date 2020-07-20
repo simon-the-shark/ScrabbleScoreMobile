@@ -37,7 +37,7 @@ class _UsersScreenState extends State<UsersScreen> {
   @override
   Widget build(BuildContext context) {
     final nullIndex = values.indexOf(null);
-    final appBar = AppBar(title: const Text("ScrabbleScoreMobile"));
+    final appBar = AppBar(title: const Text("ScrabbleScore Mobile"));
     return Scaffold(
       appBar: appBar,
       body: GestureDetector(
