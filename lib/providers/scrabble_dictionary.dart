@@ -27,7 +27,7 @@ class ScrabbleDictionary with ChangeNotifier {
   String dir;
   Future loadFuture;
   bool isReady = false;
-  String dictionary;
+  Map<String, bool> cachedDict = {};
 
   Future<void> _init() async {
     if (null == dir) dir = (await getApplicationDocumentsDirectory()).path;
