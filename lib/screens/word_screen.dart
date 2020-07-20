@@ -24,6 +24,7 @@ class WordScreenState extends State<WordScreen> {
   int score = 0;
   List<String> word = [];
   Map<int, Multipliers> multipliers = {};
+  bool bonus50 = false;
 
   int get wordMultiplyFactor {
     int returnFactor = 1;
@@ -33,8 +34,12 @@ class WordScreenState extends State<WordScreen> {
     return returnFactor;
   }
 
+  int get bonus => bonus50 ? 50 : 0;
+
   String get multiplyLabel =>
       wordMultiplyFactor > 1 ? " x$wordMultiplyFactor" : "";
+
+  String get bonus50Label => bonus50 ? " +50" : "";
 
   void addMultiplier(int index, Multipliers multi) => setState(() {
         multipliers[index] = multi;
@@ -115,7 +120,36 @@ class WordScreenState extends State<WordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Punkty: $score$multiplyLabel"),
+        title: Text("Punkty: $score$multiplyLabel$bonus50Label"),
+        actions: <Widget>[
+          if (!bonus50)
+            IconButton(
+                icon: const Text("+50"),
+                onPressed: () async {
+                  hideKeyboard();
+                  var confirmation = await showDialog(
+                      context: context,
+                      child: AlertDialog(
+                        title: const Text("Premia +50"),
+                        content: const Text(
+                            "Czy chcesz dodać premię 50 punktów za wyłożenie wszytskich płytek ze stojaczka podczas jednej tury? "),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: const Text("Nie"),
+                            onPressed: () => Navigator.of(context).pop(false),
+                          ),
+                          FlatButton(
+                            child: const Text("Tak"),
+                            onPressed: () => Navigator.of(context).pop(true),
+                          ),
+                        ],
+                      ));
+                  if (confirmation == true)
+                    setState(() {
+                      bonus50 = true;
+                    });
+                }),
+        ],
       ),
       floatingActionButton: textNode.hasFocus
           ? null
@@ -184,7 +218,7 @@ class WordScreenState extends State<WordScreen> {
                         .headline5
                         .copyWith(fontStyle: FontStyle.italic),
                   ),
-                if (word.length != 0 && !textNode.hasFocus)
+                if ((word.length != 0 || bonus50) && !textNode.hasFocus)
                   Positioned(
                     bottom: 60,
                     child: RaisedButton(
@@ -192,7 +226,7 @@ class WordScreenState extends State<WordScreen> {
                       onPressed: () {
                         Provider.of<Game>(context, listen: false).addPoints(
                             player: widget.player,
-                            points: score * wordMultiplyFactor);
+                            points: (score * wordMultiplyFactor) + bonus);
                         Navigator.of(context).pop();
                       },
                     ),
