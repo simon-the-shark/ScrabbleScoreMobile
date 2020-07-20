@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Game()),
-        ChangeNotifierProvider(create: (_) => ScrabbleDictionary()),
+        ChangeNotifierProvider.value(value: locator<ScrabbleDictionary>()),
       ],
       child: MaterialApp(
         title: 'ScrabbleScore Mobile',

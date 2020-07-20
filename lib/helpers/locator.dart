@@ -1,3 +1,4 @@
+import 'package:app/providers/scrabble_dictionary.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -7,6 +8,7 @@ import '../widgets/blank_lock_button.dart';
 GetIt locator = GetIt.instance..allowReassignment = true;
 
 void setupLocator() {
+  locator.registerLazySingleton(() => ScrabbleDictionary());
   locator.registerLazySingleton(() => GlobalKey<BlankLockButtonState>());
   locator.registerLazySingleton(() => GlobalKey<WordScreenState>());
 }

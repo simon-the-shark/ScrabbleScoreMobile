@@ -9,26 +9,13 @@ class DictionaryCheckWidget extends StatelessWidget {
   DictionaryCheckWidget(this.chars, {key}) : super(key: key);
 
   final List<String> chars;
-  String get word => chars
-      .where((element) => ScrabbleHelper.LETTERS.containsKey(element))
-      .join("");
-
-  Future future(ScrabbleDictionary dictionary) async {
-    if (dictionary.cachedDict.containsKey(word))
-      return dictionary.cachedDict[word];
-    else {
-      var result = await compute(containes, [dictionary.dir, chars]);
-      dictionary.cachedDict[word] = result;
-      return result;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     var dictionary = Provider.of<ScrabbleDictionary>(context);
     if (!dictionary.isReady) return const LoadingChip("Ładowanie słownika");
     return FutureBuilder(
-        future: future(dictionary),
+        future: dictionary.isApproved(chars),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return const LoadingChip("Sprawdzanie w słowniku");

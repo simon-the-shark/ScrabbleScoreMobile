@@ -6,20 +6,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../helpers/scrabble_helper.dart';
-
-bool containes(List args) {
-  var word = (args[1] as List)
-      .where((element) => ScrabbleHelper.LETTERS.containsKey(element))
-      .join("")
-      .toLowerCase();
-  var file = File("${args[0]}/sjp/slowa.txt");
-  var lines = file.readAsLinesSync();
-  print(lines);
-  print(word);
-  return lines.contains(word);
-}
 
 class ScrabbleDictionary with ChangeNotifier {
   ScrabbleDictionary() {
@@ -29,14 +18,24 @@ class ScrabbleDictionary with ChangeNotifier {
   String dir;
   Future loadFuture;
   bool isReady = false;
-  Map<String, bool> cachedDict = {};
+
+  Future<bool> isApproved(List<String> chars) async {
+    var word = chars
+        .where((element) => ScrabbleHelper.LETTERS.containsKey(element))
+        .join("")
+        .toLowerCase();
+    var database = await openDatabase("$dir/sjp/sjp-20200717.db", version: 1);
+    var result = await database
+        .rawQuery("SELECT COUNT(word) FROM words WHERE word='$word' LIMIT 1");
+    return result[0].values.toList()[0] > 0;
+  }
 
   Future<void> _init() async {
     if (null == dir) dir = (await getApplicationDocumentsDirectory()).path;
-    if (File("$dir/sjp/slowa.txt").existsSync())
-      loadFuture = load();
+    if (File("$dir/sjp/sjp-20200717.db").existsSync())
+      loadFuture = Future.delayed(Duration.zero, () {});
     else
-      loadFuture = unzip().then((value) => load());
+      loadFuture = unzip();
     loadFuture.whenComplete(() {
       isReady = true;
       notifyListeners();
@@ -62,15 +61,5 @@ class ScrabbleDictionary with ChangeNotifier {
         await outFile.writeAsBytes(file.content);
       }
     }
-  }
-
-  Future<void> load() async {
-    // dictionary = await compute(_load, dir);
-  }
-
-  static Future<String> _load(String dir) async {
-    var file = File("$dir/sjp/slowa.txt");
-    var lines = file.readAsStringSync();
-    return lines;
   }
 }
