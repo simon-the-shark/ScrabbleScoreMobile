@@ -58,7 +58,6 @@ flutter:
       - asset: assets/fonts/MyCustomIcons.ttf
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/wind-rose.png
     - assets/sjp-20200717.zip
   #   - images/a_dot_ham.jpeg
 
