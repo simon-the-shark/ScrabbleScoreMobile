@@ -93,15 +93,19 @@ class _FinalScreenState extends State<FinalScreen> {
                           ),
                       ],
                     ),
-                    RaisedButton(
-                      child: const Text("Zobacz wyniki"),
-                      onPressed: () {
-                        Provider.of<Game>(context, listen: false)
-                            .finalModifying();
-                        Navigator.of(context)
-                            .popUntil((route) => route.isFirst);
-                        Navigator.of(context).pushNamed(ResultScreen.routeName);
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: RaisedButton(
+                        child: const Text("Zobacz wyniki"),
+                        onPressed: () {
+                          Provider.of<Game>(context, listen: false)
+                              .finalModifying();
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
+                          Navigator.of(context)
+                              .pushNamed(ResultScreen.routeName);
+                        },
+                      ),
                     ),
                   ],
                 ),

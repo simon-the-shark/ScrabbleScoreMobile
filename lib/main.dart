@@ -1,4 +1,4 @@
-import 'package:app/screens/result_screen.dart';
+import 'package:auto_orientation/auto_orientation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,11 +8,14 @@ import 'providers/scrabble_dictionary.dart';
 import 'screens/final_screen.dart';
 import 'screens/game_menu_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/result_screen.dart';
 import 'screens/users_screen.dart';
 import 'widgets/game_pop_scope.dart';
 
 void main() {
   setupLocator();
+  WidgetsFlutterBinding.ensureInitialized();
+  AutoOrientation.fullAutoMode();
   runApp(MyApp());
 }
 

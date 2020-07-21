@@ -1,9 +1,9 @@
-import 'package:app/screens/final_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/game.dart';
 import '../widgets/user_widget.dart';
+import 'final_screen.dart';
 
 class GameMenuScreen extends StatelessWidget {
   static const routeName = "/game/menu";
@@ -16,25 +16,42 @@ class GameMenuScreen extends StatelessWidget {
     var players = Provider.of<Game>(context).players;
     return Scaffold(
       appBar: appBar,
-      body: Center(
-        child: Column(children: <Widget>[
-          Spacer(flex: 3),
-          Text(
-            "Wybierz gracza, aby doliczyć punkty",
-            style: Theme.of(context).textTheme.headline6,
-            softWrap: true,
-            textAlign: TextAlign.center,
+      body: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minWidth: MediaQuery.of(context).size.width,
+            maxWidth: MediaQuery.of(context).size.width,
+            minHeight: MediaQuery.of(context).size.height -
+                MediaQuery.of(context).padding.top -
+                appBar.preferredSize.height,
           ),
-          const SizedBox(height: 10),
-          for (var player in players) UserWidget(player),
-          Spacer(flex: 4),
-          RaisedButton(
-            child: const Text("Zakończ rozgrywkę"),
-            onPressed: () =>
-                Navigator.of(context).pushNamed(FinalScreen.routeName),
-          ),
-          Spacer(flex: 2),
-        ]),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    const SizedBox(height: 15),
+                    Text(
+                      "Wybierz gracza, aby doliczyć punkty",
+                      style: Theme.of(context).textTheme.headline6,
+                      softWrap: true,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 15),
+                    for (var player in players) UserWidget(player),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: RaisedButton(
+                    child: const Text("Zakończ rozgrywkę"),
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed(FinalScreen.routeName),
+                  ),
+                ),
+                const SizedBox(height: 1),
+              ]),
+        ),
       ),
     );
   }

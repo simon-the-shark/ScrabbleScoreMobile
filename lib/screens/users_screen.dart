@@ -34,67 +34,72 @@ class _UsersScreenState extends State<UsersScreen> {
   @override
   Widget build(BuildContext context) {
     final nullIndex = values.indexOf(null);
-    final appBar = AppBar(title: const Text("ScrabbleScore Mobile"));
+    final appBar = AppBar(title: const Text("Dodaj graczy"));
     return Scaffold(
       appBar: appBar,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height -
-                MediaQuery.of(context).padding.top -
-                appBar.preferredSize.height,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minWidth: MediaQuery.of(context).size.width,
+              maxWidth: MediaQuery.of(context).size.width,
+              minHeight: MediaQuery.of(context).size.height -
+                  MediaQuery.of(context).padding.top -
+                  appBar.preferredSize.height,
+            ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Spacer(
-                  flex: values[3] == null ? 1 : 2,
+                Column(
+                  children: <Widget>[
+                    UserInputWidget(
+                      1,
+                      values,
+                      null,
+                      focusNode: fNodes[1],
+                    ),
+                    UserInputWidget(
+                      2,
+                      values,
+                      null,
+                      focusNode: fNodes[2],
+                    ),
+                    if (values[3] != null)
+                      UserInputWidget(
+                        3,
+                        values,
+                        deleteUser,
+                        textController: TextEditingController(text: values[3]),
+                        focusNode: fNodes[3],
+                      ),
+                    if (values[4] != null)
+                      UserInputWidget(
+                        4,
+                        values,
+                        deleteUser,
+                        textController: TextEditingController(text: values[4]),
+                        focusNode: fNodes[4],
+                      ),
+                    if (nullIndex != -1) AddUserWidget(nullIndex, addUser),
+                    if (values[3] == null)
+                      Opacity(opacity: 0, child: AddUserWidget(1, (i) {})),
+                  ],
                 ),
-                UserInputWidget(
-                  1,
-                  values,
-                  null,
-                  focusNode: fNodes[1],
-                ),
-                UserInputWidget(
-                  2,
-                  values,
-                  null,
-                  focusNode: fNodes[2],
-                ),
-                if (values[3] != null)
-                  UserInputWidget(
-                    3,
-                    values,
-                    deleteUser,
-                    textController: TextEditingController(text: values[3]),
-                    focusNode: fNodes[3],
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: RaisedButton(
+                    child: const Text("Rozpocznij rozgrywkę"),
+                    onPressed: () {
+                      Provider.of<Game>(context, listen: false)
+                          .setPlayersNames(values);
+                      Navigator.of(context).pushReplacementNamed(
+                        GameMenuScreen.routeName,
+                      );
+                    },
                   ),
-                if (values[4] != null)
-                  UserInputWidget(
-                    4,
-                    values,
-                    deleteUser,
-                    textController: TextEditingController(text: values[4]),
-                    focusNode: fNodes[4],
-                  ),
-                if (nullIndex != -1) AddUserWidget(nullIndex, addUser),
-                Spacer(
-                  flex: values[3] == null ? 1 : 2,
                 ),
-                RaisedButton(
-                  child: const Text("Rozpocznij rozgrywkę"),
-                  onPressed: () {
-                    Provider.of<Game>(context, listen: false)
-                        .setPlayersNames(values);
-                    Navigator.of(context).pushReplacementNamed(
-                      GameMenuScreen.routeName,
-                    );
-                  },
-                ),
-                Spacer(
-                  flex: values[3] == null ? 1 : 3,
-                ),
+                const SizedBox(height: 1),
               ],
             ),
           ),

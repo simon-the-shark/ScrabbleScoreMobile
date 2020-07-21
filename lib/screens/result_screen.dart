@@ -65,6 +65,13 @@ class _ResultScreenState extends State<ResultScreen> {
           ),
         )
     ];
+    if (platform.length == 2)
+      platform.add(
+        SizedBox(
+          width: width / 4,
+          child: PodiumBox(height, width, 3),
+        ),
+      );
     return Scaffold(
       appBar: appBar,
       body: Align(
