@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../helpers/scrabble_helper.dart';
 import '../providers/scrabble_dictionary.dart';
@@ -10,23 +11,38 @@ class DictionaryCheckWidget extends StatelessWidget {
 
   final List<String> chars;
 
+  Future<void> launchDictionary() async {
+    final word = chars
+        .where((element) => ScrabbleHelper.LETTERS.containsKey(element))
+        .join("")
+        .toLowerCase();
+    final url = 'https://sjp.pl/$word';
+    if (await canLaunch(url))
+      await launch(url);
+    else
+      print('Could not launch $url');
+  }
+
   @override
   Widget build(BuildContext context) {
     var dictionary = Provider.of<ScrabbleDictionary>(context);
     if (!dictionary.isReady) return const LoadingChip("Ładowanie słownika");
-    return FutureBuilder(
-        future: dictionary.isApproved(chars),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
-            return const LoadingChip("Sprawdzanie w słowniku");
-          if (snapshot.hasError) {
-            print(snapshot.error);
-            return const ErrorChip();
-          } else if (snapshot.data)
-            return const ApprovedChip();
-          else
-            return const NotApprovedChip();
-        });
+    return GestureDetector(
+      onTap: launchDictionary,
+      child: FutureBuilder(
+          future: dictionary.isApproved(chars),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting)
+              return const LoadingChip("Sprawdzanie w słowniku");
+            if (snapshot.hasError) {
+              print(snapshot.error);
+              return const ErrorChip();
+            } else if (snapshot.data)
+              return const ApprovedChip();
+            else
+              return const NotApprovedChip();
+          }),
+    );
   }
 }
 
