@@ -6,31 +6,44 @@ import '../screens/word_screen.dart';
 import 'multpliers_dialog.dart';
 
 class ScrabbleTile extends StatelessWidget {
-  ScrabbleTile({this.letter, this.points, this.tileIndex});
+  ScrabbleTile({
+    this.letter,
+    this.points,
+    this.tileIndex,
+    this.sideSize = 60,
+    this.textStyle,
+    this.smallFontSize = 15,
+  });
   final String letter;
   final int points;
   final int tileIndex;
+  final double sideSize;
+  final double smallFontSize;
+  final TextStyle textStyle;
 
   final wordScreenKey = locator<GlobalKey<WordScreenState>>();
 
   @override
   Widget build(BuildContext context) {
     var multiplier =
-        wordScreenKey?.currentState?.multipliers[tileIndex] ?? Multipliers.none;
+        (wordScreenKey?.currentState?.multipliers ?? {})[tileIndex] ??
+            Multipliers.none;
     return GestureDetector(
-      onTap: () {
-        wordScreenKey?.currentState?.hideKeyboard();
-        showDialog(
-          context: context,
-          child: MultipliersDialog(
-            letter,
-            tileIndex,
-          ),
-        );
-      },
+      onTap: tileIndex == null
+          ? null
+          : () {
+              wordScreenKey?.currentState?.hideKeyboard();
+              showDialog(
+                context: context,
+                child: MultipliersDialog(
+                  letter,
+                  tileIndex,
+                ),
+              );
+            },
       child: SizedBox(
-        height: 60,
-        width: 60,
+        height: sideSize,
+        width: sideSize,
         child: Card(
           color: multiplier.color,
           child: Stack(
@@ -39,7 +52,8 @@ class ScrabbleTile extends StatelessWidget {
                 bottom: 3,
                 right: 3,
                 child: Text(points.toString(),
-                    style: ScrabbleHelper.textStyle.copyWith(fontSize: 15)),
+                    style: ScrabbleHelper.textStyle
+                        .copyWith(fontSize: smallFontSize)),
               ),
               if (multiplier.type == MultipliersType.letter)
                 Positioned(
@@ -49,7 +63,10 @@ class ScrabbleTile extends StatelessWidget {
                       style: ScrabbleHelper.textStyle.copyWith(fontSize: 11)),
                 ),
               Center(
-                child: Text(letter, style: ScrabbleHelper.textStyle),
+                child: Text(letter,
+                    style: textStyle == null
+                        ? ScrabbleHelper.textStyle
+                        : textStyle),
               ),
             ],
           ),

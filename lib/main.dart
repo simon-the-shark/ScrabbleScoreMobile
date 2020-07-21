@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'helpers/locator.dart';
 import 'providers/game.dart';
 import 'providers/scrabble_dictionary.dart';
+import 'screens/final_screen.dart';
 import 'screens/game_menu_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/users_screen.dart';
@@ -41,9 +42,9 @@ class MyApp extends StatelessWidget {
         home: HomeScreen(),
         routes: {
           UsersScreen.routeName: (context) => UsersScreen(),
-          GameMenuScreen.routeName: (context) => GamePopScope(
-                child: GameMenuScreen(),
-              ),
+          GameMenuScreen.routeName: (context) =>
+              GamePopScope(child: GameMenuScreen()),
+          FinalScreen.routeName: (context) => FinalScreen(),
         },
       ),
     );

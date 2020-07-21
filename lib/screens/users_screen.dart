@@ -1,13 +1,10 @@
-import 'package:app/helpers/scrabble_helper.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
-
-import '../providers/game.dart';
-import 'game_menu_screen.dart';
-
-import '../widgets/add_user_widget.dart';
-import '../widgets/user_input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/game.dart';
+import '../widgets/add_user_widget.dart';
+import '../widgets/user_input_widget.dart';
+import 'game_menu_screen.dart';
 
 class UsersScreen extends StatefulWidget {
   static const routeName = "/users";

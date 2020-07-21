@@ -1,3 +1,4 @@
+import 'package:app/screens/final_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +30,8 @@ class GameMenuScreen extends StatelessWidget {
           Spacer(flex: 4),
           RaisedButton(
             child: const Text("Zakończ rozgrywkę"),
-            onPressed: () {},
+            onPressed: () =>
+                Navigator.of(context).pushNamed(FinalScreen.routeName),
           ),
           Spacer(flex: 2),
         ]),

@@ -119,6 +119,7 @@ class WordScreenState extends State<WordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQuery.of(context).orientation;
     return Scaffold(
       appBar: AppBar(
         title: Text("Punkty: $score$multiplyLabel$bonus50Label"),

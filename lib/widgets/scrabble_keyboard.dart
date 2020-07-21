@@ -14,9 +14,11 @@ class ScrabbleKeyboard extends StatelessWidget
   final ValueNotifier<String> notifier;
   static const double _kKeyboardHeight = 200;
 
-  ScrabbleKeyboard({Key key, this.notifier, this.hideKeyboard})
+  ScrabbleKeyboard(
+      {Key key, this.notifier, this.hideKeyboard, this.blankLock = true})
       : super(key: key);
   final Function hideKeyboard;
+  final bool blankLock;
   static const ROWS = const [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
     [
@@ -94,15 +96,25 @@ class ScrabbleKeyboard extends StatelessWidget
         (screenWidth - (lastRowCount * itemWidth)) / lastRowSpecialCount;
     final specialButtons = {
       SpecialKeyboardButton.backspace: buildBackspace(itemWidth, itemHeight),
-      SpecialKeyboardButton.blankLock: BlankLockButton(
-          lastRowSpecialItemWidth, itemHeight, updateValue,
-          key: newBlankLockKey()),
+      SpecialKeyboardButton.blankLock: blankLock
+          ? BlankLockButton(lastRowSpecialItemWidth, itemHeight, updateValue,
+              key: newBlankLockKey())
+          : KeyboardButton(
+              lastRowSpecialItemWidth,
+              itemHeight,
+              onPressed: () => updateValue(" "),
+              child: RotationTransition(
+                turns: AlwaysStoppedAnimation(-15 / 360),
+                child: Icon(Icons.check_box_outline_blank),
+              ),
+            ),
       SpecialKeyboardButton.enter:
           buildEnter(itemWidth, itemHeight, context: context),
     };
     return Container(
       height: _kKeyboardHeight,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           for (var row in ROWS)
             Row(

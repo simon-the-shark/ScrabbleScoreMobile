@@ -37,6 +37,7 @@ class ScrabbleHelper {
     "Z": 1,
     "Ź": 9,
     "Ż": 5,
+    " ": 0,
   };
   static final darkGreen = Colors.green[900];
   static final textStyle = TextStyle(
