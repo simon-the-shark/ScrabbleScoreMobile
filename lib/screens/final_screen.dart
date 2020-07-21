@@ -1,3 +1,4 @@
+import 'package:app/screens/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
@@ -94,7 +95,13 @@ class _FinalScreenState extends State<FinalScreen> {
                     ),
                     RaisedButton(
                       child: const Text("Zobacz wyniki"),
-                      onPressed: () {},
+                      onPressed: () {
+                        Provider.of<Game>(context, listen: false)
+                            .finalModifying();
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
+                        Navigator.of(context).pushNamed(ResultScreen.routeName);
+                      },
                     ),
                   ],
                 ),

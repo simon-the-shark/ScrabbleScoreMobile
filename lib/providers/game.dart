@@ -1,3 +1,4 @@
+import 'package:app/helpers/scrabble_helper.dart';
 import 'package:flutter/cupertino.dart';
 
 class Game with ChangeNotifier {
@@ -30,5 +31,32 @@ class Game with ChangeNotifier {
   void substractPoints({int player, int points}) {
     _points[player] -= points;
     notifyListeners();
+  }
+
+  void setFinalTiles(int number, List<String> tiles) {
+    finalTiles[number] = tiles;
+  }
+
+  int finalSubstractionFactor(int number) {
+    var sum = 0;
+    for (var tile in finalTiles[number]) sum += ScrabbleHelper.LETTERS[tile];
+    return sum;
+  }
+
+  int get finalAdditionFactor {
+    var sum = 0;
+    for (var tiles in finalTiles.values)
+      for (var tile in tiles) sum += ScrabbleHelper.LETTERS[tile];
+    return sum;
+  }
+
+  void finalModifying() {
+    for (var player in players) {
+      if (finalTiles[player.key].isNotEmpty)
+        substractPoints(
+            player: player.key, points: finalSubstractionFactor(player.key));
+      else
+        addPoints(player: player.key, points: finalAdditionFactor);
+    }
   }
 }

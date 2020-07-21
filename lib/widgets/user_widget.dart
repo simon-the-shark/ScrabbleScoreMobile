@@ -1,10 +1,10 @@
-import 'package:app/helpers/locator.dart';
-import 'package:app/screens/word_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../helpers/locator.dart';
 import '../helpers/scrabble_helper.dart';
 import '../providers/game.dart';
+import '../screens/word_screen.dart';
 
 class UserWidget extends StatelessWidget {
   UserWidget(this.player);

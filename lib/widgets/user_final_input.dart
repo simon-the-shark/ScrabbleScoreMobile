@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_custom.dart';
+import 'package:provider/provider.dart';
 
 import '../helpers/locator.dart';
 import '../helpers/scrabble_helper.dart';
+import '../providers/game.dart';
 import 'cursor.dart';
 import 'scrabble_tile.dart';
 import 'user_widget.dart';
@@ -30,15 +32,19 @@ class UserFinalInput extends StatelessWidget {
           notifier: notifier,
           builder: (context, val, hasFocus) {
             var chars = val.split("");
+            Provider.of<Game>(context, listen: false)
+                .setFinalTiles(number, chars);
             return Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Text(
-                    name,
-                    style: ScrabbleHelper.textStyle
-                        .copyWith(color: UserWidget.colors[number]),
+                  FittedBox(
+                    child: Text(
+                      name,
+                      style: ScrabbleHelper.textStyle
+                          .copyWith(color: UserWidget.colors[number]),
+                    ),
                   ),
                   LayoutBuilder(builder: (context, constrains) {
                     var width =

@@ -1,3 +1,4 @@
+import 'package:app/screens/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
           GameMenuScreen.routeName: (context) =>
               GamePopScope(child: GameMenuScreen()),
           FinalScreen.routeName: (context) => FinalScreen(),
+          ResultScreen.routeName: (context) => ResultScreen(),
         },
       ),
     );
