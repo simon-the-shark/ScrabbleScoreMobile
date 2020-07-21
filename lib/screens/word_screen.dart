@@ -117,6 +117,7 @@ class WordScreenState extends State<WordScreen> {
     return tiles;
   }
 
+  void rebuild() => setState(() {});
   @override
   Widget build(BuildContext context) {
     MediaQuery.of(context).orientation;

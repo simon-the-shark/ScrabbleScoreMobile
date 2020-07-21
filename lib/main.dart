@@ -1,5 +1,6 @@
 import 'package:auto_orientation/auto_orientation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'helpers/locator.dart';
@@ -10,6 +11,7 @@ import 'screens/game_menu_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/result_screen.dart';
 import 'screens/users_screen.dart';
+import 'screens/word_screen.dart';
 import 'widgets/game_pop_scope.dart';
 
 void main() {
@@ -17,6 +19,10 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   AutoOrientation.fullAutoMode();
   runApp(MyApp());
+  SystemChannels.lifecycle.setMessageHandler((msg) {
+    if (msg == AppLifecycleState.resumed.toString())
+      locator<GlobalKey<WordScreenState>>()?.currentState?.rebuild();
+  });
 }
 
 class MyApp extends StatelessWidget {
