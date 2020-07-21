@@ -54,7 +54,8 @@ class ScrabbleKeyboard extends StatelessWidget
     "L": "Ł",
     "Z": "Ż",
     "X": "Ź",
-    "N": "Ń"
+    "N": "Ń",
+    "C": "Ć",
   };
 
   @override
