@@ -1,3 +1,4 @@
+import 'package:app/widgets/resume_button.dart';
 import 'package:flutter/material.dart';
 
 import 'history_screen.dart';
@@ -15,21 +16,22 @@ class HomeScreen extends StatelessWidget {
             width: 150,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Spacer(flex: 4),
                 RaisedButton(
                   child: const Text("Nowa gra"),
                   onPressed: () =>
                       Navigator.of(context).pushNamed(UsersScreen.routeName),
                 ),
-                const Spacer(flex: 1),
+                const SizedBox(height: 10),
+                const ResumeButton(),
+                const SizedBox(height: 10),
                 RaisedButton(
                   color: Colors.deepPurple,
                   child: const Text("Historia"),
                   onPressed: () =>
                       Navigator.of(context).pushNamed(HistoryScreen.routeName),
                 ),
-                const Spacer(flex: 4),
               ],
             ),
           ),

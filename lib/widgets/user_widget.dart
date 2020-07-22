@@ -19,6 +19,13 @@ class UserWidget extends StatelessWidget {
   };
   @override
   Widget build(BuildContext context) {
+    Map args = ModalRoute.of(context).settings.arguments;
+    int points;
+    if (args == null) {
+      points = Provider.of<Game>(context).points[player.key];
+    } else {
+      points = args["player${player.key}"];
+    }
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       color: ScrabbleHelper.DIRTY_WHITE,
@@ -51,7 +58,7 @@ class UserWidget extends StatelessWidget {
         title: Text(player.value),
         trailing: Container(
           child: Text(
-            Provider.of<Game>(context).points[player.key].toString(),
+            points.toString(),
             style: ScrabbleHelper.textStyle
                 .copyWith(color: UserWidget.colors[player.key], fontSize: 30),
           ),

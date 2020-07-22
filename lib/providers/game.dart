@@ -20,10 +20,32 @@ class Game with ChangeNotifier {
   void startNewGame(List<String> names) {
     _points = Map<int, int>.from(ZERO_POINTS);
     _moves = [];
+    finalTiles = {1: [], 2: [], 3: [], 4: []};
     for (var number in _players.keys)
       _players[number] =
           names[number] != "" ? names[number] : "< Gracz $number >";
     DatabaseHelper.insertGame(_players).then((value) => dbId = value);
+    notifyListeners();
+  }
+
+  void loadGame(Map<String, Object> data) {
+    _players = {
+      1: data["player1Name"],
+      2: data["player2Name"],
+      3: data["player3Name"],
+      4: data["player4Name"],
+    };
+    _points = {
+      1: data['player1'],
+      2: data['player2'],
+      3: data['player3'],
+      4: data['player4'],
+    };
+    dbId = data['id'];
+    _moves = [];
+    finalTiles = {1: [], 2: [], 3: [], 4: []};
+    DatabaseHelper.update(dbId, {"date": DateTime.now().millisecondsSinceEpoch},
+        silent: true);
     notifyListeners();
   }
 

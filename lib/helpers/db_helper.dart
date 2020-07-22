@@ -33,7 +33,6 @@ class DatabaseHelper {
       });
 
   static void hideChip(OverlaySupportEntry chip) async {
-    // await Future.delayed(Duration(milliseconds: 100));
     chip.dismiss();
   }
 
@@ -53,11 +52,16 @@ class DatabaseHelper {
     hideChip(chip);
   }
 
-  static Future<void> update(int id, Map<String, Object> data) async {
-    var chip = showChip();
+  static Future<void> update(
+    int id,
+    Map<String, Object> data, {
+    bool silent = false,
+  }) async {
+    OverlaySupportEntry chip;
+    if (!silent) chip = showChip();
     final db = await DatabaseHelper.db();
     await db.update("games", data, where: 'id = ?', whereArgs: [id]);
-    hideChip(chip);
+    if (!silent) hideChip(chip);
   }
 
   static Future<void> updateFinished(int id, Map<int, int> points) async {
@@ -72,10 +76,19 @@ class DatabaseHelper {
     await update(id, data);
   }
 
+  static Future<Map<String, Object>> fetchLastGame() async {
+    final db = await DatabaseHelper.db();
+    var result = await db.query("games", orderBy: "date DESC", limit: 1);
+    try {
+      return result.first;
+    } catch (e) {
+      return null;
+    }
+  }
+
   static Future<List<Map<String, dynamic>>> fetchAll() async {
     final db = await DatabaseHelper.db();
-    var r = await db.query("games", orderBy: "date DESC");
-    return r;
+    return await db.query("games", orderBy: "date DESC");
   }
 
   static Future<int> insertGame(Map<int, String> players) async {

@@ -21,7 +21,8 @@ class GameMenuScreen extends StatelessWidget {
         MapEntry(2, args["player2Name"]),
         if (args["player3Name"] != null) MapEntry(3, args["player3Name"]),
         if (args["player4Name"] != null) MapEntry(4, args["player4Name"]),
-      ];
+      ]..sort(
+          (a, b) => args["player${b.key}"].compareTo(args["player${a.key}"]));
       id = args['id'];
     }
     final appBar = AppBar(
@@ -111,7 +112,13 @@ class GameMenuScreen extends StatelessWidget {
                             child: RaisedButton.icon(
                               icon: const Icon(Icons.play_arrow),
                               label: const Text("Wznów grę"),
-                              onPressed: () {},
+                              onPressed: () {
+                                Provider.of<Game>(context, listen: false)
+                                    .loadGame(args);
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    GameMenuScreen.routeName,
+                                    (route) => route.isFirst);
+                              },
                               color: Colors.purple,
                             ),
                           ),

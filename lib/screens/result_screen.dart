@@ -31,7 +31,8 @@ class _ResultScreenState extends State<ResultScreen> {
         MapEntry(2, args["player2Name"]),
         if (args["player3Name"] != null) MapEntry(3, args["player3Name"]),
         if (args["player4Name"] != null) MapEntry(4, args["player4Name"]),
-      ];
+      ]..sort(
+          (a, b) => args["player${b.key}"].compareTo(args["player${a.key}"]));
       id = args['id'];
       date = DateTime.fromMillisecondsSinceEpoch(args["date"]);
     }
@@ -76,7 +77,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
               if (args != null)
                 Text(
-                  args["player${i + 1}"].toString(),
+                  args["player${players[i].key}"].toString(),
                   style: ScrabbleHelper.textStyle.copyWith(
                     color: UserWidget.colors[players[i].key],
                     fontSize: 35,

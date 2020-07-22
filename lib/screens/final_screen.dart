@@ -34,7 +34,7 @@ class _FinalScreenState extends State<FinalScreen> {
     current.value.unfocus();
     var players = Provider.of<Game>(context, listen: false).players;
     var indx = players.indexWhere((element) => element.key == current.key);
-    if (indx < players.length) fNodes[players[indx + 1].key].requestFocus();
+    if (indx < players.length - 1) fNodes[players[indx + 1].key].requestFocus();
   }
 
   @override
@@ -99,10 +99,8 @@ class _FinalScreenState extends State<FinalScreen> {
                         onPressed: () {
                           Provider.of<Game>(context, listen: false)
                               .finalModifying();
-                          Navigator.of(context)
-                              .popUntil((route) => route.isFirst);
-                          Navigator.of(context)
-                              .pushNamed(ResultScreen.routeName);
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              ResultScreen.routeName, (route) => route.isFirst);
                         },
                       ),
                     ),

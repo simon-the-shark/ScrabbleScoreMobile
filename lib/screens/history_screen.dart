@@ -18,15 +18,18 @@ class HistoryScreen extends StatelessWidget {
         title: const Text("Historia rozgrywek"),
       ),
       body: FutureBuilder(
-        future: Provider.of<Games>(context, listen: false).load(),
+        future: Provider.of<Games>(context, listen: false).fetch(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return const Center(child: CircularProgressIndicator());
-          else if (snapshot.hasError)
-            return FittedBox(
-              child: Text(
-                "Błąd wczytywania historii",
-                style: TextStyle(color: Theme.of(context).errorColor),
+          print(snapshot.error);
+          if (snapshot.hasError)
+            return Center(
+              child: FittedBox(
+                child: Text(
+                  "Błąd wczytywania historii",
+                  style: TextStyle(color: Theme.of(context).errorColor),
+                ),
               ),
             );
           return HistoryBody();
@@ -44,6 +47,17 @@ class HistoryBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<Games>(context);
+    if (provider.games.isEmpty)
+      return Center(
+          child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Text(
+          "Twoje rozgrywki będą widoczne tutaj!",
+          softWrap: true,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline4,
+        ),
+      ));
     return SingleChildScrollView(
       child: Column(
         children: [
