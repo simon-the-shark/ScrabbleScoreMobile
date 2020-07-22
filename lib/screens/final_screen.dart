@@ -15,27 +15,26 @@ class FinalScreen extends StatefulWidget {
 }
 
 class _FinalScreenState extends State<FinalScreen> {
-  final List<FocusNode> fNodes = [
-    null,
-    FocusNode(),
-    FocusNode(),
-    FocusNode(),
-    FocusNode()
-  ];
-  final List<ValueNotifier<String>> notifiers = [
-    null,
-    ValueNotifier<String>(""),
-    ValueNotifier<String>(""),
-    ValueNotifier<String>(""),
-    ValueNotifier<String>(""),
-  ];
+  final Map<int, FocusNode> fNodes = {
+    1: FocusNode(),
+    2: FocusNode(),
+    3: FocusNode(),
+    4: FocusNode()
+  };
+  final Map<int, ValueNotifier<String>> notifiers = {
+    1: ValueNotifier<String>(""),
+    2: ValueNotifier<String>(""),
+    3: ValueNotifier<String>(""),
+    4: ValueNotifier<String>(""),
+  };
   void nextFocus() {
-    var current = fNodes
-        .indexWhere((element) => element is FocusNode && element.hasFocus);
-    if (current == -1) return;
-    fNodes[current].unfocus();
-    if (current != Provider.of<Game>(context, listen: false).players.length)
-      fNodes[current + 1].requestFocus();
+    var current =
+        fNodes.entries.firstWhere((element) => element.value.hasFocus);
+    if (current == null) return;
+    current.value.unfocus();
+    var players = Provider.of<Game>(context, listen: false).players;
+    var indx = players.indexWhere((element) => element.key == current.key);
+    if (indx < players.length) fNodes[players[indx + 1].key].requestFocus();
   }
 
   @override
@@ -44,7 +43,7 @@ class _FinalScreenState extends State<FinalScreen> {
     var players = Provider.of<Game>(context).players;
     return WillPopScope(
       onWillPop: () async {
-        if (!fNodes.any((element) => element is FocusNode && element.hasFocus))
+        if (!fNodes.entries.any((element) => element.value.hasFocus))
           return true;
         FocusScope.of(context).unfocus();
         return false;
