@@ -1,4 +1,3 @@
-import 'package:auto_orientation/auto_orientation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,28 +15,23 @@ class ResultScreen extends StatefulWidget {
 
 class _ResultScreenState extends State<ResultScreen> {
   @override
-  void initState() {
-    AutoOrientation.landscapeAutoMode();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    AutoOrientation.fullAutoMode();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
       title: const Text("Wyniki"),
       leading: const CloseButton(),
     );
     var players = Provider.of<Game>(context).players;
-    var height = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top -
-        appBar.preferredSize.height;
-    var width = MediaQuery.of(context).size.width * 0.75;
+    double height;
+    double width;
+    if (MediaQuery.of(context).orientation == Orientation.landscape) {
+      height = MediaQuery.of(context).size.height -
+          MediaQuery.of(context).padding.top -
+          appBar.preferredSize.height;
+      width = MediaQuery.of(context).size.width * 0.75;
+    } else {
+      height = MediaQuery.of(context).size.width;
+      width = height * 0.90;
+    }
     var platform = <Widget>[
       for (var i = 0; i < players.length; i++)
         SizedBox(

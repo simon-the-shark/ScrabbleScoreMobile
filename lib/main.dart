@@ -1,4 +1,3 @@
-import 'package:auto_orientation/auto_orientation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +15,6 @@ import 'widgets/game_pop_scope.dart';
 
 void main() {
   setupLocator();
-  WidgetsFlutterBinding.ensureInitialized();
-  AutoOrientation.fullAutoMode();
   runApp(MyApp());
   SystemChannels.lifecycle.setMessageHandler((msg) {
     if (msg == AppLifecycleState.resumed.toString())
