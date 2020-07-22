@@ -21,7 +21,7 @@ class DatabaseHelper {
                       player3Name VARCHAR(256), player4Name VARCHAR(256),
                       finished INTEGER NOT NULL, date INTEGER);""");
       },
-      version: 1,
+      version: 2,
     );
   }
 
@@ -33,6 +33,7 @@ class DatabaseHelper {
       });
 
   static void hideChip(OverlaySupportEntry chip) async {
+    await Future.delayed(Duration(milliseconds: 100));
     chip.dismiss();
   }
 

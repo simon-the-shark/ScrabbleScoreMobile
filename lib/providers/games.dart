@@ -17,7 +17,7 @@ class Games with ChangeNotifier {
 
   Future<Map<String, Object>> fetchLastGame() async {
     var result = await DatabaseHelper.fetchLastGame();
-    if (result["finished"] == 0)
+    if (result != null && result["finished"] == 0)
       return result;
     else
       return null;
