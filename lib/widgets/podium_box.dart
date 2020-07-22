@@ -10,13 +10,13 @@ class PodiumBox extends StatelessWidget {
   final double height;
   final double width;
 
-  static const placeColors = {
-    1: Color.fromRGBO(214, 175, 54, 1),
-    2: Color.fromRGBO(167, 167, 173, 1),
-    3: Color.fromRGBO(167, 112, 68, 1),
+  static const placeColors = const {
+    1: const Color.fromRGBO(214, 175, 54, 1),
+    2: const Color.fromRGBO(167, 167, 173, 1),
+    3: const Color.fromRGBO(167, 112, 68, 1),
     4: ScrabbleHelper.DIRTY_WHITE,
   };
-  static const placeHeightsFactors = {
+  static const placeHeightsFactors = const {
     1: 0.6,
     2: 0.4,
     3: 0.3,

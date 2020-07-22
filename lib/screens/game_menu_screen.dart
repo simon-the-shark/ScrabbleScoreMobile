@@ -9,11 +9,27 @@ class GameMenuScreen extends StatelessWidget {
   static const routeName = "/game/menu";
   @override
   Widget build(BuildContext context) {
+    Map args = ModalRoute.of(context).settings.arguments;
+    var interactive = args == null;
+    int id;
+    List<MapEntry<int, String>> players;
+    if (interactive) {
+      players = Provider.of<Game>(context).players;
+    } else {
+      players = [
+        MapEntry(1, args["player1Name"]),
+        MapEntry(2, args["player2Name"]),
+        if (args["player3Name"] != null) MapEntry(3, args["player3Name"]),
+        if (args["player4Name"] != null) MapEntry(4, args["player4Name"]),
+      ];
+      id = args['id'];
+    }
     final appBar = AppBar(
-      title: const Text("ScrabbleScore Mobile"),
+      title: interactive
+          ? const Text("ScrabbleScore Mobile")
+          : Text("Rozgrywka #$id"),
       leading: const CloseButton(),
     );
-    var players = Provider.of<Game>(context).players;
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
@@ -31,14 +47,17 @@ class GameMenuScreen extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     const SizedBox(height: 15),
-                    Text(
-                      "Wybierz gracza, aby doliczyć punkty",
-                      style: Theme.of(context).textTheme.headline6,
-                      softWrap: true,
-                      textAlign: TextAlign.center,
-                    ),
+                    if (interactive)
+                      Text(
+                        "Wybierz gracza, aby doliczyć punkty",
+                        style: Theme.of(context).textTheme.headline6,
+                        softWrap: true,
+                        textAlign: TextAlign.center,
+                      ),
                     const SizedBox(height: 15),
-                    for (var player in players) UserWidget(player),
+                    for (var player in players)
+                      IgnorePointer(
+                          ignoring: !interactive, child: UserWidget(player)),
                   ],
                 ),
                 Padding(
@@ -48,42 +67,54 @@ class GameMenuScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        RaisedButton(
-                          child: const Text("Cofnij ruch"),
-                          color: Colors.yellow[300],
-                          onPressed: Provider.of<Game>(context, listen: false)
-                                  .canReverse
-                              ? () async {
-                                  var confirmation = await showDialog(
-                                      context: context,
-                                      child: AlertDialog(
-                                        title: const Text("Cofnięcie ruchu"),
-                                        content: const Text(
-                                            "Czy chcesz cofnąć ostatni ruch?"),
-                                        actions: [
-                                          FlatButton(
-                                              onPressed:
-                                                  Navigator.of(context).pop,
-                                              child: const Text("Nie")),
-                                          FlatButton(
-                                              onPressed: () =>
-                                                  Navigator.of(context)
-                                                      .pop(true),
-                                              child: const Text("Cofnij")),
-                                        ],
-                                      ));
-                                  if (confirmation == true)
-                                    Provider.of<Game>(context, listen: false)
-                                        .reverseLastMove();
-                                }
-                              : null,
-                        ),
+                        if (interactive)
+                          RaisedButton(
+                            child: const Text("Cofnij ruch"),
+                            color: Colors.yellow[300],
+                            onPressed: Provider.of<Game>(context, listen: false)
+                                    .canReverse
+                                ? () async {
+                                    var confirmation = await showDialog(
+                                        context: context,
+                                        child: AlertDialog(
+                                          title: const Text("Cofnięcie ruchu"),
+                                          content: const Text(
+                                              "Czy chcesz cofnąć ostatni ruch?"),
+                                          actions: [
+                                            FlatButton(
+                                                onPressed:
+                                                    Navigator.of(context).pop,
+                                                child: const Text("Nie")),
+                                            FlatButton(
+                                                onPressed: () =>
+                                                    Navigator.of(context)
+                                                        .pop(true),
+                                                child: const Text("Cofnij")),
+                                          ],
+                                        ));
+                                    if (confirmation == true)
+                                      Provider.of<Game>(context, listen: false)
+                                          .reverseLastMove();
+                                  }
+                                : null,
+                          ),
                         const SizedBox(height: 5),
-                        RaisedButton(
-                          child: const Text("Zakończ rozgrywkę"),
-                          onPressed: () => Navigator.of(context)
-                              .pushNamed(FinalScreen.routeName),
-                        ),
+                        if (interactive)
+                          RaisedButton(
+                            child: const Text("Zakończ rozgrywkę"),
+                            onPressed: () => Navigator.of(context)
+                                .pushNamed(FinalScreen.routeName),
+                          ),
+                        if (!interactive)
+                          SizedBox(
+                            height: 43,
+                            child: RaisedButton.icon(
+                              icon: const Icon(Icons.play_arrow),
+                              label: const Text("Wznów grę"),
+                              onPressed: () {},
+                              color: Colors.purple,
+                            ),
+                          ),
                       ],
                     ),
                   ),

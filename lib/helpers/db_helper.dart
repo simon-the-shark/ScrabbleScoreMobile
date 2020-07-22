@@ -33,7 +33,7 @@ class DatabaseHelper {
       });
 
   static void hideChip(OverlaySupportEntry chip) async {
-    await Future.delayed(Duration(milliseconds: 100));
+    // await Future.delayed(Duration(milliseconds: 100));
     chip.dismiss();
   }
 
@@ -74,7 +74,8 @@ class DatabaseHelper {
 
   static Future<List<Map<String, dynamic>>> fetchAll() async {
     final db = await DatabaseHelper.db();
-    return await db.query("games");
+    var r = await db.query("games", orderBy: "date DESC");
+    return r;
   }
 
   static Future<int> insertGame(Map<int, String> players) async {

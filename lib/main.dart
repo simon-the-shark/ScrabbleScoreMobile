@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
 import 'helpers/locator.dart';
 import 'providers/game.dart';
+import 'providers/games.dart';
 import 'providers/scrabble_dictionary.dart';
 import 'screens/final_screen.dart';
 import 'screens/game_menu_screen.dart';
+import 'screens/history_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/result_screen.dart';
 import 'screens/users_screen.dart';
@@ -15,6 +18,7 @@ import 'screens/word_screen.dart';
 import 'widgets/game_pop_scope.dart';
 
 void main() {
+  initializeDateFormatting("pl_PL");
   setupLocator();
   runApp(MyApp());
   SystemChannels.lifecycle.setMessageHandler((msg) {
@@ -31,6 +35,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => Game()),
         ChangeNotifierProvider.value(value: locator<ScrabbleDictionary>()),
+        ChangeNotifierProvider(create: (_) => Games()),
       ],
       child: OverlaySupport(
         child: MaterialApp(
@@ -55,6 +60,7 @@ class MyApp extends StatelessWidget {
                 GamePopScope(child: GameMenuScreen()),
             FinalScreen.routeName: (context) => FinalScreen(),
             ResultScreen.routeName: (context) => ResultScreen(),
+            HistoryScreen.routeName: (context) => HistoryScreen(),
           },
         ),
       ),

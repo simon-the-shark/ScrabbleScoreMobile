@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../helpers/scrabble_helper.dart';
@@ -16,11 +17,29 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
+    Map args = ModalRoute.of(context).settings.arguments;
+    int id;
+    List<MapEntry<int, String>> players;
+    DateTime date;
+    if (args == null) {
+      players = Provider.of<Game>(context).players;
+      id = Provider.of<Game>(context).dbId;
+      date = DateTime.now();
+    } else {
+      players = [
+        MapEntry(1, args["player1Name"]),
+        MapEntry(2, args["player2Name"]),
+        if (args["player3Name"] != null) MapEntry(3, args["player3Name"]),
+        if (args["player4Name"] != null) MapEntry(4, args["player4Name"]),
+      ];
+      id = args['id'];
+      date = DateTime.fromMillisecondsSinceEpoch(args["date"]);
+    }
+
     final appBar = AppBar(
       title: const Text("Wyniki"),
       leading: const CloseButton(),
     );
-    var players = Provider.of<Game>(context).players;
     double height;
     double width;
     if (MediaQuery.of(context).orientation == Orientation.landscape) {
@@ -47,13 +66,22 @@ class _ResultScreenState extends State<ResultScreen> {
                   ),
                 ),
               ),
-              Text(
-                Provider.of<Game>(context).points[players[i].key].toString(),
-                style: ScrabbleHelper.textStyle.copyWith(
-                  color: UserWidget.colors[players[i].key],
-                  fontSize: 35,
+              if (args == null)
+                Text(
+                  Provider.of<Game>(context).points[players[i].key].toString(),
+                  style: ScrabbleHelper.textStyle.copyWith(
+                    color: UserWidget.colors[players[i].key],
+                    fontSize: 35,
+                  ),
                 ),
-              ),
+              if (args != null)
+                Text(
+                  args["player${i + 1}"].toString(),
+                  style: ScrabbleHelper.textStyle.copyWith(
+                    color: UserWidget.colors[players[i].key],
+                    fontSize: 35,
+                  ),
+                ),
               PodiumBox(height, width, i + 1),
             ],
           ),
@@ -68,13 +96,36 @@ class _ResultScreenState extends State<ResultScreen> {
       );
     return Scaffold(
       appBar: appBar,
-      body: Align(
-        alignment: Alignment.center,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: platform..replaceRange(0, 2, [platform[1], platform[0]]),
-        ),
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Text(
+                    "#$id",
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  Text(
+                    DateFormat.yMMMd("pl_PL").format(date),
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: platform
+                ..replaceRange(0, 2, [platform[1], platform[0]]),
+            ),
+          ),
+        ],
       ),
     );
   }

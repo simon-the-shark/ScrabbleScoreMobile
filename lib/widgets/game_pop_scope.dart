@@ -8,6 +8,7 @@ class GamePopScope extends StatelessWidget {
     return WillPopScope(
       child: child,
       onWillPop: () async {
+        if (ModalRoute.of(context).settings.arguments != null) return true;
         var confirmation = await showDialog(
           context: context,
           child: AlertDialog(
