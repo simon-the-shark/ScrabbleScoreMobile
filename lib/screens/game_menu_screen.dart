@@ -43,10 +43,49 @@ class GameMenuScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20),
-                  child: RaisedButton(
-                    child: const Text("Zakończ rozgrywkę"),
-                    onPressed: () =>
-                        Navigator.of(context).pushNamed(FinalScreen.routeName),
+                  child: SizedBox(
+                    width: 190,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        RaisedButton(
+                          child: const Text("Cofnij ruch"),
+                          color: Colors.yellow[300],
+                          onPressed: Provider.of<Game>(context, listen: false)
+                                  .canReverse
+                              ? () async {
+                                  var confirmation = await showDialog(
+                                      context: context,
+                                      child: AlertDialog(
+                                        title: const Text("Cofnięcie ruchu"),
+                                        content: const Text(
+                                            "Czy chcesz cofnąć ostatni ruch?"),
+                                        actions: [
+                                          FlatButton(
+                                              onPressed:
+                                                  Navigator.of(context).pop,
+                                              child: const Text("Nie")),
+                                          FlatButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context)
+                                                      .pop(true),
+                                              child: const Text("Cofnij")),
+                                        ],
+                                      ));
+                                  if (confirmation == true)
+                                    Provider.of<Game>(context, listen: false)
+                                        .reverseLastMove();
+                                }
+                              : null,
+                        ),
+                        const SizedBox(height: 5),
+                        RaisedButton(
+                          child: const Text("Zakończ rozgrywkę"),
+                          onPressed: () => Navigator.of(context)
+                              .pushNamed(FinalScreen.routeName),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 1),

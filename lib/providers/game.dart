@@ -6,6 +6,7 @@ class Game with ChangeNotifier {
   Map<int, int> _points = {1: 0, 2: 0, 3: 0, 4: 0};
   static const ZERO_POINTS = {1: 0, 2: 0, 3: 0, 4: 0};
   Map<int, List<String>> finalTiles = {1: [], 2: [], 3: [], 4: []};
+  List<Map<int, int>> _moves = [];
 
   Map<int, String> get clearedPlayers => Map<int, String>.from(_players)
     ..removeWhere((key, value) => value == null);
@@ -17,6 +18,7 @@ class Game with ChangeNotifier {
 
   void setPlayersNames(List<String> names) {
     _points = Map<int, int>.from(ZERO_POINTS);
+    _moves = [];
     for (var number in _players.keys)
       _players[number] =
           names[number] != "" ? names[number] : "< Gracz $number >";
@@ -25,6 +27,7 @@ class Game with ChangeNotifier {
 
   void addPoints({int player, int points}) {
     _points[player] += points;
+    _moves.add({player: points});
     notifyListeners();
   }
 
@@ -59,4 +62,13 @@ class Game with ChangeNotifier {
         addPoints(player: player.key, points: finalAdditionFactor);
     }
   }
+
+  void reverseLastMove() {
+    if (!canReverse) return;
+    var move = _moves.removeLast();
+    _points[move.keys.first] -= move.values.first;
+    notifyListeners();
+  }
+
+  bool get canReverse => _moves.isNotEmpty;
 }
