@@ -92,7 +92,7 @@ class _UsersScreenState extends State<UsersScreen> {
                     child: const Text("Rozpocznij rozgrywkę"),
                     onPressed: () {
                       Provider.of<Game>(context, listen: false)
-                          .setPlayersNames(values);
+                          .startNewGame(values);
                       Navigator.of(context).pushReplacementNamed(
                         GameMenuScreen.routeName,
                       );

@@ -13,7 +13,7 @@ class GamePopScope extends StatelessWidget {
           child: AlertDialog(
             title: const Text("Przerwać rozgrywkę?"),
             content: const Text(
-                "Wyjście oznacza przerwanie rozgrywki, wyniki nie zostaną zapisane. Kontynuować?"),
+                "Czy chcesz wyjść? Wyjście oznacza przerwanie rozgrywki, którą można następnie wznowić."),
             actions: <Widget>[
               FlatButton(
                 child: const Text("Wyjdź"),
