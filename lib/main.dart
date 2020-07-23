@@ -1,3 +1,4 @@
+import 'package:app/screens/dictionary_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
             FinalScreen.routeName: (context) => FinalScreen(),
             ResultScreen.routeName: (context) => ResultScreen(),
             HistoryScreen.routeName: (context) => HistoryScreen(),
+            DictionaryScreen.routeName: (context) => DictionaryScreen(),
           },
         ),
       ),

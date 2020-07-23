@@ -1,3 +1,4 @@
+import 'package:app/screens/dictionary_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -89,12 +90,11 @@ class _UsersScreenState extends State<UsersScreen> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: RaisedButton(
-                    child: const Text("Rozpocznij rozgrywkę"),
+                    child: const Text("Dalej"),
                     onPressed: () {
-                      Provider.of<Game>(context, listen: false)
-                          .startNewGame(values);
                       Navigator.of(context).pushReplacementNamed(
-                        GameMenuScreen.routeName,
+                        DictionaryScreen.routeName,
+                        arguments: values,
                       );
                     },
                   ),

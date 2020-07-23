@@ -1,3 +1,4 @@
+import 'package:app/providers/scrabble_dictionary.dart';
 import 'package:app/widgets/dictionary_check_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -215,7 +216,9 @@ class WordScreenState extends State<WordScreen> {
                       ),
                     ],
                   ),
-                if (word.length > 0)
+                if (word.length > 0 &&
+                    Provider.of<ScrabbleDictionary>(context).source !=
+                        DictionarySources.none)
                   Positioned(
                     top: 10,
                     right: 10,
