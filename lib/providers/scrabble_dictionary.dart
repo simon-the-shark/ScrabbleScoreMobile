@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/local_dictionary_helper.dart';
 import '../helpers/remote_dictionary_helper.dart';
@@ -28,6 +29,17 @@ extension DictionaryExtension on DictionarySources {
         return "Wyłącz słownik";
     }
   }
+
+  String get code {
+    switch (this) {
+      case DictionarySources.remote:
+        return "remote";
+      case DictionarySources.local:
+        return "local";
+      default:
+        return "none";
+    }
+  }
 }
 
 class ScrabbleDictionary with ChangeNotifier {
@@ -38,6 +50,8 @@ class ScrabbleDictionary with ChangeNotifier {
         isDownloaded = await LocalDictionaryHelper.isDownloaded;
         isUnpacked = await LocalDictionaryHelper.isUnpacked;
         isReady = true;
+        prefs = await SharedPreferences.getInstance();
+        source = await getSource();
         if (unzipReady) unzip();
         notifyListeners();
       },
@@ -48,7 +62,7 @@ class ScrabbleDictionary with ChangeNotifier {
   static bool isDownloaded;
   static bool isUnpacked;
   bool isReady = false;
-
+  SharedPreferences prefs;
   DictionarySources source = DictionarySources.remote;
 
   Future<void> refresh() async {
@@ -91,11 +105,22 @@ class ScrabbleDictionary with ChangeNotifier {
 
   Future<void> downloadAndUnzip(Function(double) onProgress) async {
     await download(onProgress);
-    // await unzip();
+    await unzip();
   }
 
   void setSource(DictionarySources value) {
     source = value;
+    prefs.setString("dictionarySource", value.code);
     notifyListeners();
+  }
+
+  Future<DictionarySources> getSource() async {
+    var code = prefs.getString("dictionarySource");
+    var source =
+        DictionarySources.values.indexWhere((element) => element.code == code);
+    if (source == -1) return DictionarySources.remote;
+    if (DictionarySources.values[source] == DictionarySources.local &&
+        !isUnpacked) return DictionarySources.remote;
+    return DictionarySources.values[source];
   }
 }

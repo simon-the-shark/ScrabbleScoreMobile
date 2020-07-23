@@ -39,6 +39,7 @@ dependencies:
   overlay_support: ^1.0.5
   intl: ^0.16.1
   dio: ^3.0.9
+  shared_preferences: ^0.5.8
 
 
 dev_dependencies:
