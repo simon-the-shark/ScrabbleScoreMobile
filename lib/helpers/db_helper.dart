@@ -30,7 +30,7 @@ class DatabaseHelper {
           opacity: t,
           child: const SavingChip(),
         );
-      });
+      }, duration: Duration.zero);
 
   static void hideChip(OverlaySupportEntry chip) async {
     await Future.delayed(Duration(milliseconds: 100));

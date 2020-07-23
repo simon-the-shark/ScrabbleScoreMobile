@@ -80,14 +80,18 @@ class ScrabbleDictionary with ChangeNotifier {
     await refresh();
   }
 
-  Future<void> download() async {
-    await RemoteDictionaryHelper.download();
+  Future<void> download(Function(double) onProgress) async {
+    await RemoteDictionaryHelper.download(onProgress);
     await refresh();
+    var f = await LocalDictionaryHelper.isDownloaded;
+    var f2 = await LocalDictionaryHelper.isUnpacked;
+    print(f);
+    print(f2);
   }
 
-  Future<void> downloadAndUnzip() async {
-    await download();
-    await unzip();
+  Future<void> downloadAndUnzip(Function(double) onProgress) async {
+    await download(onProgress);
+    // await unzip();
   }
 
   void setSource(DictionarySources value) {

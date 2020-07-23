@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:app/helpers/file_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../providers/scrabble_dictionary.dart';
+import 'file_helper.dart';
 
 class LocalDictionaryHelper {
   static Future<bool> get isDownloaded async {
@@ -24,7 +24,7 @@ class LocalDictionaryHelper {
     if (!ScrabbleDictionary.isDownloaded || ScrabbleDictionary.isUnpacked)
       return;
     await FileHelper.unzip(
-        file: File("$dir/sjp-20200717.db"), destinationDir: "$dir");
+        file: File("$dir/sjp-20200717.zip"), destinationDir: dir);
   }
 
   static Future<void> deleteZip() async {
@@ -37,6 +37,7 @@ class LocalDictionaryHelper {
   static Future<bool> isApproved(String word) async {
     try {
       var dir = ScrabbleDictionary.dir;
+      var f = File("$dir/sjp-20200717.db");
       var database = await openDatabase("$dir/sjp-20200717.db", version: 1);
       var result = await database
           .rawQuery("SELECT COUNT(word) FROM words WHERE word='$word' LIMIT 1");

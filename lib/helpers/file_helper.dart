@@ -11,8 +11,7 @@ class FileHelper {
   static Future<void> _unzip(List args) async {
     var zip = args[0];
     var dir = args[1];
-    var archive = ZipDecoder().decodeBytes(
-        zip.buffer.asUint8List(zip.offsetInBytes, zip.lengthInBytes));
+    var archive = ZipDecoder().decodeBytes(zip.readAsBytesSync());
     for (var file in archive) {
       var fileName = '$dir/${file.name}';
       if (file.isFile) {
@@ -29,6 +28,7 @@ class FileHelper {
   }
 
   static Future<void> _delete(File file) async {
-    await file.delete(recursive: true);
+    print(file.existsSync());
+    if (file.existsSync()) await file.delete(recursive: true);
   }
 }
