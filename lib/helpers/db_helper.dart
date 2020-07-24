@@ -5,6 +5,16 @@ import 'package:sqflite/sqflite.dart';
 
 import '../widgets/saving_chip.dart';
 
+String transformListToString(List list) {
+  var string = "(";
+  for (var val in list)
+    if (val is String)
+      string += '"${val.toString()}", ';
+    else
+      string += '${val.toString()}, ';
+  return string.replaceAll(RegExp(r'..$'), ")");
+}
+
 class DatabaseHelper {
   static const DATABASE_NAME = "saves.db";
 
@@ -46,10 +56,18 @@ class DatabaseHelper {
     return id;
   }
 
-  static Future<void> delete(int id) async {
+  // static Future<void> delete(int id) async {
+  //   var chip = showChip();
+  //   final db = await DatabaseHelper.db();
+  //   await db.delete("games", where: "id = ?", whereArgs: [id]);
+  //   hideChip(chip);
+  // }
+
+  static Future<void> deleteMultiple(List<int> ids) async {
     var chip = showChip();
     final db = await DatabaseHelper.db();
-    await db.delete("games", where: "id = ?", whereArgs: [id]);
+    var values = transformListToString(ids);
+    await db.rawDelete("""DELETE FROM games WHERE id IN $values""");
     hideChip(chip);
   }
 

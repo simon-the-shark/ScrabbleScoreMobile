@@ -9,43 +9,17 @@ import '../widgets/my_custom_icons_icons.dart';
 import '../widgets/podium_box.dart';
 import 'result_screen.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   static const routeName = "/history";
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Historia rozgrywek"),
-      ),
-      body: FutureBuilder(
-        future: Provider.of<Games>(context, listen: false).fetch(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
-            return const Center(child: CircularProgressIndicator());
-          print(snapshot.error);
-          if (snapshot.hasError)
-            return Center(
-              child: FittedBox(
-                child: Text(
-                  "Błąd wczytywania historii",
-                  style: TextStyle(color: Theme.of(context).errorColor),
-                ),
-              ),
-            );
-          return HistoryBody();
-        },
-      ),
-    );
-  }
+  _HistoryScreenState createState() => _HistoryScreenState();
 }
 
-class HistoryBody extends StatelessWidget {
-  const HistoryBody({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+class _HistoryScreenState extends State<HistoryScreen> {
+  List<int> selected = [];
+  Games gameRef;
+  Widget buildBody() {
     var provider = Provider.of<Games>(context);
     if (provider.games.isEmpty)
       return Center(
@@ -64,13 +38,44 @@ class HistoryBody extends StatelessWidget {
           for (var game in provider.games)
             Card(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              color: ScrabbleHelper.DIRTY_WHITE,
+              color: selected.contains(game["id"])
+                  ? Theme.of(context).primaryColorLight
+                  : ScrabbleHelper.DIRTY_WHITE,
               child: ListTile(
-                onTap: game['finished'] == 1
-                    ? () => Navigator.of(context)
-                        .pushNamed(ResultScreen.routeName, arguments: game)
-                    : () => Navigator.of(context)
-                        .pushNamed(GameMenuScreen.routeName, arguments: game),
+                onTap: selected.isEmpty
+                    ? game['finished'] == 1
+                        ? () {
+                            setState(() {
+                              selected.clear();
+                            });
+                            Navigator.of(context).pushNamed(
+                                ResultScreen.routeName,
+                                arguments: game);
+                          }
+                        : () {
+                            setState(() {
+                              selected.clear();
+                            });
+                            Navigator.of(context).pushNamed(
+                                GameMenuScreen.routeName,
+                                arguments: game);
+                          }
+                    : () {
+                        setState(() {
+                          if (!selected.contains(game["id"]))
+                            selected.add(game["id"]);
+                          else
+                            selected.remove(game["id"]);
+                        });
+                      },
+                onLongPress: () {
+                  setState(() {
+                    if (!selected.contains(game["id"]))
+                      selected.add(game["id"]);
+                    else
+                      selected.remove(game["id"]);
+                  });
+                },
                 leading: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -113,6 +118,56 @@ class HistoryBody extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    gameRef = Provider.of<Games>(context, listen: false);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    Future.delayed(Duration.zero, gameRef?.clearGames);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Historia rozgrywek"),
+        actions: [
+          if (selected.isNotEmpty)
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () => Provider.of<Games>(context, listen: false)
+                  .delete(selected)
+                  .then((value) => setState(() {})),
+            ),
+        ],
+      ),
+      body: !Provider.of<Games>(context).isReady
+          ? FutureBuilder(
+              future: Provider.of<Games>(context, listen: false).fetch(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting)
+                  return const Center(child: CircularProgressIndicator());
+                print(snapshot.error);
+                if (snapshot.hasError)
+                  return Center(
+                    child: FittedBox(
+                      child: Text(
+                        "Błąd wczytywania historii",
+                        style: TextStyle(color: Theme.of(context).errorColor),
+                      ),
+                    ),
+                  );
+                return buildBody();
+              },
+            )
+          : buildBody(),
     );
   }
 }

@@ -22,4 +22,15 @@ class Games with ChangeNotifier {
     else
       return null;
   }
+
+  Future<void> delete(List<int> ids) async {
+    await DatabaseHelper.deleteMultiple(ids);
+    _games = games.where((element) => !ids.contains(element['id'])).toList();
+    notifyListeners();
+  }
+
+  void clearGames() {
+    _games = null;
+    notifyListeners();
+  }
 }
