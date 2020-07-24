@@ -1,5 +1,3 @@
-import 'package:app/providers/scrabble_dictionary.dart';
-import 'package:app/widgets/dictionary_check_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
@@ -7,8 +5,10 @@ import 'package:provider/provider.dart';
 import '../helpers/locator.dart';
 import '../helpers/scrabble_helper.dart';
 import '../providers/game.dart';
+import '../providers/scrabble_dictionary.dart';
 import '../widgets/blank_lock_button.dart';
 import '../widgets/blank_tile.dart';
+import '../widgets/dictionary_check_widget.dart';
 import '../widgets/scrabble_keyboard.dart';
 import '../widgets/scrabble_tile.dart';
 
@@ -87,6 +87,7 @@ class WordScreenState extends State<WordScreen> {
     notifier.addListener(onChanged);
     super.initState();
     textNode.requestFocus();
+    WidgetsBinding.instance.addObserver(RefreshOnResume());
   }
 
   @override
@@ -256,4 +257,12 @@ class WordScreenState extends State<WordScreen> {
   hideKeyboard() => setState(() {
         textNode.unfocus();
       });
+}
+
+class RefreshOnResume extends WidgetsBindingObserver {
+  @override
+  Future<Null> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed)
+      locator<GlobalKey<WordScreenState>>()?.currentState?.rebuild();
+  }
 }

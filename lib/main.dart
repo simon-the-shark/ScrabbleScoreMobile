@@ -15,17 +15,12 @@ import 'screens/history_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/result_screen.dart';
 import 'screens/users_screen.dart';
-import 'screens/word_screen.dart';
 import 'widgets/game_pop_scope.dart';
 
 void main() {
   initializeDateFormatting("pl_PL");
   setupLocator();
   runApp(MyApp());
-  SystemChannels.lifecycle.setMessageHandler((msg) {
-    if (msg == AppLifecycleState.resumed.toString())
-      locator<GlobalKey<WordScreenState>>()?.currentState?.rebuild();
-  });
 }
 
 class MyApp extends StatelessWidget {
