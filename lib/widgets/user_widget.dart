@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:speech_to_text/speech_to_text_provider.dart';
 
 import '../helpers/locator.dart';
 import '../helpers/scrabble_helper.dart';
@@ -35,7 +36,10 @@ class UserWidget extends StatelessWidget {
           MaterialPageRoute(
             fullscreenDialog: true,
             builder: (context) =>
-                WordScreen(player.key, key: newWordScreenKey()),
+                ChangeNotifierProvider<SpeechToTextProvider>.value(
+              value: locator<SpeechToTextProvider>(),
+              child: WordScreen(player.key, key: newWordScreenKey()),
+            ),
             settings: const RouteSettings(
               name: WordScreen.routeName,
             ),

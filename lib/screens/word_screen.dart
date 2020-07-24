@@ -1,3 +1,4 @@
+import 'package:app/widgets/speech_to_text.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
@@ -48,6 +49,20 @@ class WordScreenState extends State<WordScreen> {
         score = ScrabbleHelper.calculateScoreWithLetterMultipliers(
             word, multipliers);
       });
+  void setWord(String value) {
+    setState(() {
+      multipliers = {};
+      word = value
+          .toUpperCase()
+          .split("")
+          .where((element) =>
+              element != " " && ScrabbleHelper.LETTERS[element] != null)
+          .toList();
+      score =
+          ScrabbleHelper.calculateScoreWithLetterMultipliers(word, multipliers);
+    });
+  }
+
   void onChanged() {
     var value = notifier.value;
     if (value == "") return;
@@ -86,8 +101,9 @@ class WordScreenState extends State<WordScreen> {
   void initState() {
     notifier.addListener(onChanged);
     super.initState();
-    textNode.requestFocus();
     WidgetsBinding.instance.addObserver(RefreshOnResume());
+    textNode.requestFocus();
+    Future.delayed(Duration.zero, rebuild);
   }
 
   @override
@@ -159,6 +175,8 @@ class WordScreenState extends State<WordScreen> {
       floatingActionButton: textNode.hasFocus
           ? null
           : FloatingActionButton(
+              key: ValueKey("keyboard"),
+              heroTag: "keyboard",
               child: const Icon(Icons.keyboard),
               onPressed: () => setState(() {
                 textNode.requestFocus();
@@ -248,7 +266,12 @@ class WordScreenState extends State<WordScreen> {
                         Navigator.of(context).pop();
                       },
                     ),
-                  )
+                  ),
+                Positioned(
+                  bottom: textNode.hasFocus ? 4 : 75,
+                  right: 4,
+                  child: const SpeechToTextWidget(),
+                ),
               ],
             ),
           ),

@@ -112,25 +112,27 @@ class ScrabbleKeyboard extends StatelessWidget
       SpecialKeyboardButton.enter:
           buildEnter(itemWidth, itemHeight, context: context),
     };
-    return Container(
-      height: _kKeyboardHeight,
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: _kKeyboardHeight),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           for (var row in ROWS)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: row.map((button) {
-                if (button is String)
-                  return KeyboardButton(
-                    itemWidth,
-                    itemHeight,
-                    update: updateValue,
-                    letter: button,
-                  );
-                else
-                  return specialButtons[button];
-              }).toList(),
+            Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: row.map((button) {
+                  if (button is String)
+                    return KeyboardButton(
+                      itemWidth,
+                      itemHeight,
+                      update: updateValue,
+                      letter: button,
+                    );
+                  else
+                    return specialButtons[button];
+                }).toList(),
+              ),
             )
         ],
       ),

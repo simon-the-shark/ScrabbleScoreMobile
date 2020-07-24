@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+import 'package:speech_to_text/speech_to_text_provider.dart';
 
 import '../providers/scrabble_dictionary.dart';
 import '../screens/word_screen.dart';
@@ -13,6 +15,7 @@ void setupLocator() {
   locator.registerLazySingleton(() => GlobalKey<BlankLockButtonState>());
   locator.registerLazySingleton(() => GlobalKey<WordScreenState>());
   locator.registerLazySingleton(() => GlobalKey<CursorState>());
+  locator.registerLazySingleton(() => SpeechToTextProvider(SpeechToText()));
 }
 
 GlobalKey<BlankLockButtonState> newBlankLockKey() {
