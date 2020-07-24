@@ -138,7 +138,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Historia rozgrywek"),
-        leading: selected.isEmpty
+        leading: selected.isNotEmpty
             ? IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () {

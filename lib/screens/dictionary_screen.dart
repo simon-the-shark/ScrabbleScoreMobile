@@ -110,12 +110,11 @@ class DictionaryScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                            const SizedBox(height: 15),
                             Wrap(
                               runAlignment: WrapAlignment.start,
                               crossAxisAlignment: WrapCrossAlignment.center,
                               children: [
-                                const SizedBox(width: 5),
+                                const SizedBox(width: 15),
                                 Text("Nie wiesz który wybrać?"),
                                 FlatButton(
                                   onPressed: () => showDialog(
@@ -133,28 +132,47 @@ class DictionaryScreen extends StatelessWidget {
                                 )
                               ],
                             ),
+                            const ChoiceRemember()
                           ],
                         ),
                         const SizedBox(height: 1),
-                        Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: RaisedButton(
-                            child: const Text("Rozpocznij rozgrywkę"),
-                            onPressed: provider.source !=
-                                        DictionarySources.local ||
-                                    ScrabbleDictionary.isUnpacked
-                                ? () {
-                                    Provider.of<Game>(context, listen: false)
-                                        .startNewGame(
-                                      ModalRoute.of(context).settings.arguments,
-                                    );
-                                    Navigator.of(context).pushReplacementNamed(
-                                      GameMenuScreen.routeName,
-                                    );
-                                  }
-                                : null,
+                        if (ModalRoute.of(context).settings.arguments != null)
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: RaisedButton(
+                              child: const Text("Rozpocznij rozgrywkę"),
+                              onPressed: provider.source !=
+                                          DictionarySources.local ||
+                                      ScrabbleDictionary.isUnpacked
+                                  ? () {
+                                      Provider.of<Game>(context, listen: false)
+                                          .startNewGame(
+                                        ModalRoute.of(context)
+                                            .settings
+                                            .arguments,
+                                      );
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                        GameMenuScreen.routeName,
+                                      );
+                                    }
+                                  : null,
+                            ),
                           ),
-                        ),
+                        if (ModalRoute.of(context).settings.arguments == null)
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: RaisedButton(
+                              child: const Text("Zapisz"),
+                              onPressed:
+                                  provider.source != DictionarySources.local ||
+                                          ScrabbleDictionary.isUnpacked
+                                      ? () {
+                                          Navigator.of(context).pop();
+                                        }
+                                      : null,
+                            ),
+                          ),
                         const SizedBox(height: 1),
                       ],
                     ),
@@ -165,6 +183,53 @@ class DictionaryScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               ),
       ),
+    );
+  }
+}
+
+class ChoiceRemember extends StatelessWidget {
+  const ChoiceRemember({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Checkbox(
+              value: Provider.of<ScrabbleDictionary>(context).remembered,
+              onChanged: (newValue) {
+                Provider.of<ScrabbleDictionary>(context, listen: false)
+                    .setRemembered(newValue);
+              },
+            ),
+            GestureDetector(
+                onTap: () {
+                  Provider.of<ScrabbleDictionary>(context, listen: false)
+                      .setRemembered(!Provider.of<ScrabbleDictionary>(context,
+                              listen: false)
+                          .remembered);
+                },
+                child: Text(
+                  "Zapamiętaj mój wybór",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontWeight: FontWeight.normal),
+                )),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Text(
+            "Można potem zmienić w ustwieniach",
+            style: Theme.of(context).textTheme.caption,
+          ),
+        )
+      ],
     );
   }
 }

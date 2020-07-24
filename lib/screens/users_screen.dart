@@ -1,8 +1,12 @@
+import 'package:app/providers/game.dart';
+import 'package:app/providers/scrabble_dictionary.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/add_user_widget.dart';
 import '../widgets/user_input_widget.dart';
 import 'dictionary_screen.dart';
+import 'game_menu_screen.dart';
 
 class UsersScreen extends StatefulWidget {
   static const routeName = "/users";
@@ -33,6 +37,7 @@ class _UsersScreenState extends State<UsersScreen> {
   Widget build(BuildContext context) {
     final nullIndex = values.indexOf(null);
     final appBar = AppBar(title: const Text("Dodaj graczy"));
+    var provider = Provider.of<ScrabbleDictionary>(context);
     return Scaffold(
       appBar: appBar,
       body: GestureDetector(
@@ -84,21 +89,39 @@ class _UsersScreenState extends State<UsersScreen> {
                       Opacity(opacity: 0, child: AddUserWidget(1, (i) {})),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: SizedBox(
-                    width: 150,
-                    child: RaisedButton(
-                      child: const Text("Dalej"),
-                      onPressed: () {
-                        Navigator.of(context).pushReplacementNamed(
-                          DictionaryScreen.routeName,
-                          arguments: values,
-                        );
-                      },
+                if (!provider.remembered)
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: SizedBox(
+                      width: 150,
+                      child: RaisedButton(
+                        child: const Text("Dalej"),
+                        onPressed: () {
+                          Navigator.of(context).pushReplacementNamed(
+                            DictionaryScreen.routeName,
+                            arguments: values,
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
+                if (provider.remembered)
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: RaisedButton(
+                      child: const Text("Rozpocznij rozgrywkę"),
+                      onPressed: provider.source != DictionarySources.local ||
+                              ScrabbleDictionary.isUnpacked
+                          ? () {
+                              Provider.of<Game>(context, listen: false)
+                                  .startNewGame(values);
+                              Navigator.of(context).pushReplacementNamed(
+                                GameMenuScreen.routeName,
+                              );
+                            }
+                          : null,
+                    ),
+                  ),
                 const SizedBox(height: 1),
               ],
             ),

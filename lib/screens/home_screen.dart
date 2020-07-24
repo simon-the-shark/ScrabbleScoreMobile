@@ -1,3 +1,4 @@
+import 'package:app/screens/dictionary_screen.dart';
 import 'package:app/widgets/status_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -47,6 +48,14 @@ class HomeScreen extends StatelessWidget {
                           child: const Text("Historia"),
                           onPressed: () => Navigator.of(context)
                               .pushNamed(HistoryScreen.routeName),
+                        ),
+                        const SizedBox(height: 10),
+                        RaisedButton(
+                          color: Colors.grey[600],
+                          padding: edgeInsets,
+                          child: const Text("Ustawienia"),
+                          onPressed: () => Navigator.of(context)
+                              .pushNamed(DictionaryScreen.routeName),
                         ),
                       ],
                     ),

@@ -52,6 +52,7 @@ class ScrabbleDictionary with ChangeNotifier {
         isDownloaded = await LocalDictionaryHelper.isDownloaded(prefs);
         isReady = true;
         source = await getSource();
+        remembered = prefs.getBool("rememberedSource") ?? false;
         if (unzipReady) unzip();
         notifyListeners();
       },
@@ -64,7 +65,7 @@ class ScrabbleDictionary with ChangeNotifier {
   bool isReady = false;
   SharedPreferences prefs;
   DictionarySources source = DictionarySources.remote;
-
+  bool remembered;
   Future<void> refresh() async {
     isUnpacked = await LocalDictionaryHelper.isUnpacked;
     isDownloaded = await LocalDictionaryHelper.isDownloaded(prefs);
@@ -107,6 +108,7 @@ class ScrabbleDictionary with ChangeNotifier {
   void setSource(DictionarySources value) {
     source = value;
     prefs.setString("dictionarySource", value.code);
+    prefs.setBool("rememberSource", remembered);
     notifyListeners();
   }
 
@@ -118,5 +120,11 @@ class ScrabbleDictionary with ChangeNotifier {
     if (DictionarySources.values[source] == DictionarySources.local &&
         !isUnpacked) return DictionarySources.remote;
     return DictionarySources.values[source];
+  }
+
+  void setRemembered(bool val) {
+    remembered = val;
+    prefs.setBool("rememberedSource", val);
+    notifyListeners();
   }
 }
