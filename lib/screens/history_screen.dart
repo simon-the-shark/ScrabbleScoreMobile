@@ -138,13 +138,25 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Historia rozgrywek"),
+        leading: selected.isEmpty
+            ? IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  setState(() {
+                    selected = [];
+                  });
+                },
+              )
+            : null,
         actions: [
           if (selected.isNotEmpty)
             IconButton(
               icon: Icon(Icons.delete),
               onPressed: () => Provider.of<Games>(context, listen: false)
                   .delete(selected)
-                  .then((value) => setState(() {})),
+                  .then((value) => setState(() {
+                        selected = [];
+                      })),
             ),
         ],
       ),
