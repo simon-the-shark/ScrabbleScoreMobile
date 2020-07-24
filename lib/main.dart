@@ -18,6 +18,9 @@ import 'screens/users_screen.dart';
 import 'widgets/game_pop_scope.dart';
 
 void main() {
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //   statusBarColor: Colors.teal[700], // status bar color
+  // ));
   initializeDateFormatting("pl_PL");
   setupLocator();
   runApp(MyApp());

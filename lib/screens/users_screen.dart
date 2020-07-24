@@ -89,14 +89,17 @@ class _UsersScreenState extends State<UsersScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20),
-                  child: RaisedButton(
-                    child: const Text("Dalej"),
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed(
-                        DictionaryScreen.routeName,
-                        arguments: values,
-                      );
-                    },
+                  child: SizedBox(
+                    width: 150,
+                    child: RaisedButton(
+                      child: const Text("Dalej"),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed(
+                          DictionaryScreen.routeName,
+                          arguments: values,
+                        );
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 1),

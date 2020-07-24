@@ -1,3 +1,6 @@
+import 'package:app/screens/home_screen.dart';
+import 'package:app/screens/users_screen.dart';
+import 'package:app/widgets/name_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,10 +20,11 @@ class ResumeButton extends StatelessWidget {
               snapshot.hasError ||
               !snapshot.hasData;
           return SizedBox(
-            height: 43,
             child: RaisedButton.icon(
               icon: const Icon(Icons.play_arrow),
               label: const Text("Wznów grę"),
+              padding: const EdgeInsetsDirectional.only(
+                  start: 12.0, end: 16.0, top: 15, bottom: 15),
               onPressed: disabled
                   ? null
                   : () {

@@ -235,7 +235,10 @@ class WordScreenState extends State<WordScreen> {
                   ),
                 if ((word.length != 0 || bonus50) && !textNode.hasFocus)
                   Positioned(
-                    bottom: 60,
+                    bottom: MediaQuery.of(context).orientation ==
+                            Orientation.portrait
+                        ? 50
+                        : 20,
                     child: RaisedButton(
                       child: const Text("Dolicz słowo"),
                       onPressed: () {
