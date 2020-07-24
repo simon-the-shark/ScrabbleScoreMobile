@@ -1,4 +1,4 @@
-package com.scrabble_score.app
+package com.scrabble_score.mobile
 
 import io.flutter.embedding.android.FlutterActivity
 

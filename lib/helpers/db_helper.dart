@@ -80,11 +80,8 @@ class DatabaseHelper {
   static Future<Map<String, Object>> fetchLastGame() async {
     final db = await DatabaseHelper.db();
     var result = await db.query("games", orderBy: "date DESC", limit: 1);
-    try {
-      return result.first;
-    } catch (e) {
-      return null;
-    }
+    if (!(result.length > 0)) return null;
+    return result.first;
   }
 
   static Future<List<Map<String, dynamic>>> fetchAll() async {
