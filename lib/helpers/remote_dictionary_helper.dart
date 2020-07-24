@@ -1,7 +1,5 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../providers/scrabble_dictionary.dart';
 
@@ -19,15 +17,19 @@ class RemoteDictionaryHelper {
   }
 
   static Future<void> download(Function(double) onProgress) async {
-    var r = await Dio().download(
+    var prefs = await SharedPreferences.getInstance();
+    await Dio().download(
       "$API_MASTER_URL/download/sjp-20200717.zip",
       "${ScrabbleDictionary.dir}/sjp-20200717.zip",
       onReceiveProgress: (rcv, total) {
         var progress = ((rcv / total) * 100);
+        if (progress == 100.0 || progress.floor() % 10 == 0)
+          prefs.setDouble("progress", progress);
         onProgress(progress);
       },
       deleteOnError: true,
     );
-    print(r);
+    prefs.setDouble("progress", 100);
+    print(prefs.getDouble("progress"));
   }
 }

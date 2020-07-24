@@ -37,11 +37,11 @@ class _DownloadWidgetState extends State<DownloadWidget> {
       child: Material(
           color: Colors.black45,
           child: AlertDialog(
-            title: ScrabbleDictionary.isDownloaded
-                ? const Text("Odpakowywanie")
-                : const Text("Pobieranie"),
+            title: progress < 100
+                ? const Text("Pobieranie")
+                : const Text("Odpakowywanie"),
             content: ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 200),
+              constraints: BoxConstraints(maxHeight: 220),
               child: Stack(
                 children: [
                   Center(
@@ -54,10 +54,17 @@ class _DownloadWidgetState extends State<DownloadWidget> {
                           child: CircularProgressIndicator(),
                         ),
                         const SizedBox(height: 30),
-                        if (!ScrabbleDictionary.isUnpacked)
+                        if (!ScrabbleDictionary.isUnpacked && progress < 100)
                           Text(
                             "${progress.toStringAsFixed(0)} %",
                             style: Theme.of(context).textTheme.headline5,
+                          ),
+                        const SizedBox(height: 30),
+                        if (!ScrabbleDictionary.isUnpacked && progress < 100)
+                          Text(
+                            "W przypadku zamknięcia aplikacji, postęp pobierania zostanie utracony",
+                            softWrap: true,
+                            style: Theme.of(context).textTheme.caption,
                           ),
                       ],
                     ),

@@ -47,10 +47,10 @@ class ScrabbleDictionary with ChangeNotifier {
     getApplicationDocumentsDirectory().then(
       (value) async {
         dir = value.path;
-        isDownloaded = await LocalDictionaryHelper.isDownloaded;
-        isUnpacked = await LocalDictionaryHelper.isUnpacked;
-        isReady = true;
         prefs = await SharedPreferences.getInstance();
+        isUnpacked = await LocalDictionaryHelper.isUnpacked;
+        isDownloaded = await LocalDictionaryHelper.isDownloaded(prefs);
+        isReady = true;
         source = await getSource();
         if (unzipReady) unzip();
         notifyListeners();
@@ -66,8 +66,8 @@ class ScrabbleDictionary with ChangeNotifier {
   DictionarySources source = DictionarySources.remote;
 
   Future<void> refresh() async {
-    isDownloaded = await LocalDictionaryHelper.isDownloaded;
     isUnpacked = await LocalDictionaryHelper.isUnpacked;
+    isDownloaded = await LocalDictionaryHelper.isDownloaded(prefs);
     notifyListeners();
   }
 
@@ -97,10 +97,6 @@ class ScrabbleDictionary with ChangeNotifier {
   Future<void> download(Function(double) onProgress) async {
     await RemoteDictionaryHelper.download(onProgress);
     await refresh();
-    var f = await LocalDictionaryHelper.isDownloaded;
-    var f2 = await LocalDictionaryHelper.isUnpacked;
-    print(f);
-    print(f2);
   }
 
   Future<void> downloadAndUnzip(Function(double) onProgress) async {
