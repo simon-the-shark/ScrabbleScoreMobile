@@ -1,8 +1,8 @@
-import 'package:app/providers/game.dart';
-import 'package:app/providers/scrabble_dictionary.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/game.dart';
+import '../providers/scrabble_dictionary.dart';
 import '../widgets/add_user_widget.dart';
 import '../widgets/user_input_widget.dart';
 import 'dictionary_screen.dart';

@@ -1,8 +1,8 @@
-import 'package:app/helpers/locator.dart';
-import 'package:app/widgets/cursor.dart';
 import 'package:flutter/material.dart';
 
+import '../helpers/locator.dart';
 import '../helpers/scrabble_helper.dart';
+import 'cursor.dart';
 import 'scrabble_keyboard.dart';
 
 class FinalScrabbleKeyboard extends ScrabbleKeyboard {

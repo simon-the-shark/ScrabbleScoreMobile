@@ -1,6 +1,3 @@
-import 'package:app/screens/home_screen.dart';
-import 'package:app/screens/users_screen.dart';
-import 'package:app/widgets/name_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,4 +1,3 @@
-import 'package:app/widgets/speech_to_text.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +11,7 @@ import '../widgets/blank_tile.dart';
 import '../widgets/dictionary_check_widget.dart';
 import '../widgets/scrabble_keyboard.dart';
 import '../widgets/scrabble_tile.dart';
+import '../widgets/speech_to_text.dart';
 
 class WordScreen extends StatefulWidget {
   WordScreen(this.player, {key}) : super(key: key);

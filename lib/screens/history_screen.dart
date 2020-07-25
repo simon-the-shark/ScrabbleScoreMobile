@@ -1,4 +1,3 @@
-import 'package:app/screens/game_menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +6,7 @@ import '../helpers/scrabble_helper.dart';
 import '../providers/games.dart';
 import '../widgets/my_custom_icons_icons.dart';
 import '../widgets/podium_box.dart';
+import 'game_menu_screen.dart';
 import 'result_screen.dart';
 
 class HistoryScreen extends StatefulWidget {

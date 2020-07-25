@@ -1,4 +1,3 @@
-import 'package:app/screens/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../providers/game.dart';
 import '../widgets/final_scrable_keyboard.dart';
 import '../widgets/user_final_input.dart';
+import 'result_screen.dart';
 
 class FinalScreen extends StatefulWidget {
   static const routeName = "/final";

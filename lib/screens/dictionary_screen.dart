@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:app/widgets/download_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +8,7 @@ import '../providers/game.dart';
 import '../providers/scrabble_dictionary.dart';
 import '../widgets/dictionary_sources_info_popup.dart';
 import '../widgets/download_info_popup.dart';
+import '../widgets/download_widget.dart';
 import 'game_menu_screen.dart';
 
 class DictionaryScreen extends StatelessWidget {

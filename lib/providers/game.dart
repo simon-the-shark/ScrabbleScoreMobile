@@ -1,6 +1,7 @@
-import 'package:app/helpers/db_helper.dart';
-import 'package:app/helpers/scrabble_helper.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../helpers/db_helper.dart';
+import '../helpers/scrabble_helper.dart';
 
 class Game with ChangeNotifier {
   Map<int, String> _players = {1: null, 2: null, 3: null, 4: null};

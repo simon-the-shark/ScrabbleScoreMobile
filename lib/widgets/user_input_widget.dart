@@ -1,5 +1,6 @@
-import 'package:app/helpers/scrabble_helper.dart';
 import 'package:flutter/material.dart';
+
+import '../helpers/scrabble_helper.dart';
 
 class UserInputWidget extends StatelessWidget {
   UserInputWidget(this.number, this.parentValues, this.parentDeleteFunction,

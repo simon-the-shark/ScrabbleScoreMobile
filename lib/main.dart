@@ -1,6 +1,4 @@
-import 'package:app/screens/dictionary_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +7,7 @@ import 'helpers/locator.dart';
 import 'providers/game.dart';
 import 'providers/games.dart';
 import 'providers/scrabble_dictionary.dart';
+import 'screens/dictionary_screen.dart';
 import 'screens/final_screen.dart';
 import 'screens/game_menu_screen.dart';
 import 'screens/history_screen.dart';

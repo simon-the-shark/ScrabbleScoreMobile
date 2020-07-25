@@ -1,10 +1,10 @@
-import 'package:app/screens/dictionary_screen.dart';
-import 'package:app/widgets/status_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import '../widgets/name_widget.dart';
 import '../widgets/resume_button.dart';
+import '../widgets/status_bar.dart';
+import 'dictionary_screen.dart';
 import 'history_screen.dart';
 import 'users_screen.dart';
 
@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         RaisedButton(
-                          color: Colors.grey[600],
+                          color: Colors.blueAccent[700],
                           padding: edgeInsets,
                           child: const Text("Ustawienia"),
                           onPressed: () => Navigator.of(context)
