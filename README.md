@@ -1,12 +1,12 @@
 # Scrabble Score Mobile
-Flutter mobile application for calculating and tracking score in Polish version of Srabble game. Remake of [my first ever python console application from 2017](https://github.com/Simon-the-Shark/Scrable-Score). Currently app supports only Polish lagunge and the polish edition of Scrabble. 
+Flutter mobile application for calculating and tracking score in Polish version of Scrabble game. Remake of [my first ever python console application from 2017](https://github.com/Simon-the-Shark/Scrable-Score). Currently app supports only Polish lagunge and the polish edition of Scrabble. 
 
  [Zobacz opis w języku polskim](#scrabble-score-mobile-1)
  
  **Note: I am not affilated with Scrabble's publishers in any way.**
  
  ## Screenshots
-![Image1](docs/1.jpg) ![Image2](docs/2.jpg) ![Image3](docs/3jpg)![Image4](docs/4.jpg) ![Image5](docs/5.jpg)
+![Image1](docs/1.jpg | width=100) ![Image2](docs/2.jpg | width=100) ![Image3](docs/3jpg | width=100) ![Image4](docs/4.jpg | width=100) ![Image5](docs/5.jpg | width=100)
  
 ## Key features
 * Calculates the value of a word, inluding letter and word multipliers.
