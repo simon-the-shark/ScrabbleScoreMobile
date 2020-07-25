@@ -1,16 +1,45 @@
-# app
+# Scrabble Score Mobile
+Flutter mobile application for calculating and tracking score in Polish version of Srabble game. Remake of [my first ever python console application from 2017](https://github.com/Simon-the-Shark/Scrable-Score). Currently app supports only Polish lagunge and the polish edition of Scrabble. 
 
-A new Flutter application.
+ [Zobacz opis w języku polskim](#scrabble-score-mobile-1)
+ 
+ **Note: I am not affilated with Scrabble's publishers in any way.**
+ 
+ ## Screenshots
+![Image1](docs/1.jpg) ![Image2](docs/2.jpg) ![Image3](docs/3jpg)![Image4](docs/4.jpg) ![Image5](docs/5.jpg)
+ 
+## Key features
+* Calculates the value of a word, inluding letter and word multipliers.
+* Custom scrabble keyboard
+* Speech to text input
+* Live scoreboard
+* Saving results history
+* Saving and resuming unfinished games
+* Final score modification, based on unused tiles
+* Custom players name (2-4)
+* Moves reverting
+* Online or downloadable offline dictionary which automatically check whether a word is allowed in Scrabble. (See [my simple backend](https://github.com/Simon-the-Shark/ScrabbleScoreBackend) for more info)
 
-## Getting Started
+# Scrabble Score Mobile
+Aplikacja mobilna do liczenia punktów w grze Scrabble. Remake [mojej pierwszej konsolowej aplikacji z 2017 roku](https://github.com/Simon-the-Shark/Scrable-Score).
+ 
+ **Uwaga: W żaden sposób nie jestem powiązany z wydawcami gry Scrabble**
+ 
+## Główne funkcje
+* Liczy wartość słowa, uwzględniając premie literowe i słowne.
+* Dedykowana klawiatura
+* Wprowadzanie słów poprzez rozpoznawanie mowy
+* Żywa tablica wyników
+* Zapisywanie historii wyników
+* Zapisywanie i wznawianie niedokończonych gier
+* Modyfikacja wyniku o niewykorzystane płytki
+* Dowolne nazwy graczy (od 2 do 4)
+* Cofanie ruchów
+* Słownik online lub offline do pobrania, automatycznie sprawdzający dopusczalność słów (Zobacz [mój prosty serwer](https://github.com/Simon-the-Shark/ScrabbleScoreBackend))
 
-This project is a starting point for a Flutter application.
+## Pobieranie
+Najnowsza wersja w postaci pliku .apk aplikacji na androida jest dostępna w [sekcji releases](https://github.com/Simon-the-Shark/ScrabbleScoreMobile/releases)
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## License
+This project is licensed under the GNU Affero General Public License v3.0 - see the [LICENSE.md](LICENSE.md) file for details

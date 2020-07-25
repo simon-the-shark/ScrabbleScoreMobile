@@ -222,13 +222,14 @@ class ChoiceRemember extends StatelessWidget {
                 )),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: Text(
-            "Można potem zmienić w ustwieniach",
-            style: Theme.of(context).textTheme.caption,
-          ),
-        )
+        if (ModalRoute.of(context).settings.arguments != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: Text(
+              "Można potem zmienić w ustwieniach",
+              style: Theme.of(context).textTheme.caption,
+            ),
+          )
       ],
     );
   }
