@@ -6,8 +6,11 @@ Flutter mobile application for calculating and tracking score in Polish version 
  **Note: I am not affilated with Scrabble's publishers in any way.**
  
  ## Screenshots
- <img src="docs/1.jpg" width="100">
-<!-- ![Image1](docs/1.jpg | width=100) ![Image2](docs/2.jpg | width=100) ![Image3](docs/3jpg | width=100) ![Image4](docs/4.jpg | width=100) ![Image5](docs/5.jpg | width=100) -->
+ <img src="docs/1.jpg" width="300">
+ <img src="docs/2.jpg" width="300">
+ <img src="docs/3.jpg" width="300">
+ <img src="docs/4.jpg" width="300">
+ <img src="docs/5.jpg" width="300">
  
 ## Key features
 * Calculates the value of a word, inluding letter and word multipliers.
