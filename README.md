@@ -40,6 +40,8 @@ Aplikacja mobilna do liczenia punktów w grze Scrabble. Remake [mojej pierwszej 
 ## Pobieranie
 Najnowsza wersja w postaci pliku .apk aplikacji na androida jest dostępna w [sekcji releases](https://github.com/Simon-the-Shark/ScrabbleScoreMobile/releases)
 
+Możesz również samodzielnie zbudować aplikacje na ios (>10.0). 
+
 
 ## License
 This project is licensed under the GNU Affero General Public License v3.0 - see the [LICENSE.md](LICENSE.md) file for details
